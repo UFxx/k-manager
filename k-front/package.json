@@ -1,0 +1,44 @@
+{
+	"name": "wallpapers",
+	"private": true,
+	"version": "1.0.0",
+	"type": "module",
+	"watch": {
+		"lint": "**/*.{js,vue}"
+	},
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview",
+		"lint": "eslint . --ext .js,.vue",
+		"lint:fix": "eslint . --ext .js,.vue --fix",
+		"lint:style": "stylelint \"**/*.vue\"",
+		"lint:style:watch": "chokidar \"**/*.vue\" -c \"npm run lint:style\"",
+		"lint:js:watch": "chokidar \"**/*.{js,vue}\" -c \"npm run lint\"",
+		"lint:watch": "concurrently \"npm run lint:js:watch\" \"npm run lint:style:watch\"",
+		"dev:lint": "concurrently --kill-others \"npm run lint:watch\" \"npm run dev\""
+	},
+	"dependencies": {
+		"@mistralai/mistralai": "^1.7.2",
+		"@vitejs/plugin-vue": "^5.2.4",
+		"globals": "^16.2.0"
+	},
+	"devDependencies": {
+		"@stylistic/eslint-plugin": "^5.0.0",
+		"chokidar-cli": "^3.0.0",
+		"concurrently": "^9.2.0",
+		"eslint": "^9.29.0",
+		"eslint-plugin-vue": "^10.2.0",
+		"npm-watch": "^0.13.0",
+		"postcss-html": "^1.8.0",
+		"sass": "^1.78.0",
+		"sass-embedded": "^1.89.2",
+		"stylelint": "^16.21.0",
+		"stylelint-config-recommended-vue": "^1.6.0",
+		"stylelint-config-standard": "^38.0.0",
+		"stylelint-config-standard-scss": "^15.0.1",
+		"vite": "^5.4.1",
+		"vite-plugin-stylelint": "^6.0.0",
+		"vite-plugin-vue-devtools": "^7.7.7"
+	}
+}
