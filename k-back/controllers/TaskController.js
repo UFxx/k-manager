@@ -53,6 +53,25 @@ class TaskController
 			tasks: await Task.getTasksByProjectId(db, projectId)
 		})
 	}
+
+	async editTask(req, res)
+	{
+		const { fieldName, newValue, taskId, projectId } = req.body;
+
+		if (!fieldName || !newValue || !taskId || !projectId)
+			return res.status(400).json({
+				success: false,
+				message: "fieldName and newValue and taskId and projectId is required"
+			})
+
+		await Task.editTask(db, fieldName, newValue, taskId);
+
+		return res.json({
+			success: true,
+			message: "Задача изменена",
+			tasks: await Task.getTasksByProjectId(db, projectId)
+		})
+	}
 }
 
 export default new TaskController();
