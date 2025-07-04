@@ -1,4 +1,7 @@
 <script setup>
+	import TaskField from '@/TaskField.vue';
+	import { ref } from 'vue';
+
 	const props = defineProps({
 		taskId:{
 			type: Number,
@@ -35,19 +38,29 @@
 		}
 	})
 
-	const emit = defineEmits(['deleteTask']);
+	const emit = defineEmits(['deleteTask', 'editTask']);
+
+	const inputValue = ref(null);
 
 </script>
-
+<!-- Значения в инпуте нет, потому что не доделал двухстороннее связывание -->
 <template>
 	<tr class="project-table__row">
 		<td>{{ props.numeration }}.</td>
-		<td>
+		<!-- <td>
 			<input
+				v-model="locationInputValue"
 				type="text"
-				:value="props.location"
+				@input="emit('editTask', taskId, projectId, 'location', locationInputValue)"
 			/>
-		</td>
+		</td> -->
+		<task-field
+			v-model="inputValue"
+			:value="props.location"
+			:fieldName="`location`"
+			:taskId="taskId"
+			:projectId="projectId"
+		/>
 		<td>{{ props.available }}</td>
 		<td>{{ props.importance }}</td>
 		<td>{{ props.status }}</td>
@@ -76,6 +89,7 @@
 				padding: 5px;
 				padding-right: 0;
 				border: none;
+				font-size: 14px;
 			}
 		}
 	}

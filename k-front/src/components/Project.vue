@@ -2,6 +2,8 @@
 	import { ref, onMounted } from 'vue';
 	import Task from '@/Task.vue';
 
+	import tasksApi from '~/src/api/tasks'
+
 	const props = defineProps({
 		projectName: {
 			type: String,
@@ -20,74 +22,56 @@
 
 	const fetchTasks = async () =>
 	{
-		try
-		{
-			const res = await fetch(`${import.meta.env.VITE_API_URL}/tasks/${props.projectId}`)
-			const data = await res.json();
+		const data = await tasksApi.fetchTasks(props.projectId);
 
-			if (data.success)
-				tasks.value = data.tasks;
-			else
-				console.log("Ошибка от сервера:", data.message || "Неизвестная ошибка");
-		}
-		catch(err)
-		{
-			console.log(err);
-		}
+		if (data.success) tasks.value = data.tasks;
+		else console.log(data.message || "Неизвестная ошибка");
 	}
 
 	const addTask = async () =>
 	{
-		try
-		{
-			const res = await fetch(`${import.meta.env.VITE_API_URL}/tasks/create`,
-				{
-					method: 'POST',
-					body: JSON.stringify({ projectId: props.projectId }),
-					headers : {
-						'Content-Type': 'application/json'
-					}
-				}
-			)
+		const payload = { projectId: props.projectId }
+		const data = await tasksApi.addTask(payload);
 
-			const data = await res.json();
-
-			if (data.success)
-				tasks.value = data.tasks;
-			else
-				console.log(data.message || 'Неизвестная ошибка');
-		}
-		catch(err)
+		if (data.success)
 		{
-			console.log(err);
+			tasks.value.push(data.task);
+			console.log(data.message);
 		}
+		else console.log(data.message || 'Неизвестная ошибка');
 	}
 
-	const deleteTask = async (taskId, projectId) =>
+	const deleteTask = async (taskId) =>
 	{
-		try
-		{
-			const res = await fetch(`${import.meta.env.VITE_API_URL}/tasks/delete`,
-				{
-					method: 'DELETE',
-					body : JSON.stringify({ taskId, projectId }),
-					headers : {
-						'Content-Type' : 'application/json'
-					}
-				}
-			)
+		const data = await tasksApi.deleteTask(taskId);
 
-			const data = await res.json();
+		if (data.success)
+		{
+			tasks.value = tasks.value.filter(task => task.id !== taskId);
+			console.log(data.message);
+		}
+		else console.log(data.message);
+	}
+
+	let editTaskDebouncerTimeout;
+
+	const editTask = async (fieldName, newValue, taskId) =>
+	{
+		if (editTaskDebouncerTimeout) clearTimeout(editTaskDebouncerTimeout)
+
+		editTaskDebouncerTimeout = setTimeout(async () =>
+		{
+			const payload = { fieldName, newValue, taskId }
+			const data = await tasksApi.editTask(payload);
 
 			if (data.success)
-				tasks.value = data.tasks;
-			else
+			{
+				const affectedTaskIdx = tasks.value.findIndex(task => task.id === taskId);
+				tasks.value[affectedTaskIdx] = data.task;
 				console.log(data.message);
-		}
-		catch(err)
-		{
-			console.log(err);
-		}
+			}
+			else console.log(data.message);
+		}, 2000)
 	}
 
 	onMounted(() => fetchTasks());
@@ -135,6 +119,7 @@
 					:projectId="task.project_id"
 					:taskId="task.id"
 					@delete-task="deleteTask"
+					@edit-task="editTask"
 				/>
 			</TransitionGroup>
 			<tr class="project-table__last-row">

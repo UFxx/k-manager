@@ -53,7 +53,7 @@ class TaskController
 
 	async deleteTask(req, res)
 	{
-		const { taskId } = req.body;
+		const { taskId } = req.params;
 
 		if (!taskId) res.status(400).json({
 			success: false,

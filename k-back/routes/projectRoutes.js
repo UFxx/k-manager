@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/', asyncHandler(ProjectController.getAllProjects));
 router.get('/:projectId', asyncHandler(ProjectController.getProjectById));
 router.post('/', asyncHandler(ProjectController.createProject));
-router.delete('/', asyncHandler(ProjectController.deleteProject));
+router.delete('/:projectId', asyncHandler(ProjectController.deleteProject));
 router.patch('/', asyncHandler(ProjectController.renameProject));
 
 export default router;

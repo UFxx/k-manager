@@ -39,14 +39,14 @@ class ProjectController
 
 		return res.json({
 			success: true,
-			message: "Проект успешно создан",
+			message: "Проект создан",
 			project: await newProject
 		})
 	}
 
 	async deleteProject(req, res)
 	{
-		const { projectId } = req.body;
+		const { projectId } = req.params;
 
 		if (!projectId) return res.status(400).json({
 			success: false,

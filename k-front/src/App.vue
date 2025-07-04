@@ -2,109 +2,58 @@
 	import { ref, onMounted } from 'vue';
 	import Project from '@/Project.vue';
 
+	import projectsApi from '~/src/api/projects'
+
 	const projects = ref([]);
 	const newCreatedProjectName = ref(null);
 
 	const fetchProjects = async () =>
 	{
-		try
-		{
-			const res = await fetch(`${import.meta.env.VITE_API_URL}/projects`);
-			const data = await res.json();
+		const data = await projectsApi.fetchProjects();
 
-			if (data.success)
-				projects.value = data.projects;
-			else
-				console.log(data.message || "Неизвестная ошибка");
-		}
-		catch(err)
-		{
-			console.log(err);
-		}
+		if (data.success) projects.value = data.projects;
+		else console.log(data.message || "Неизвестная ошибка");
 	}
 
 	const createNewProject = async () =>
 	{
-		try
+		const payload = { projectName: newCreatedProjectName.value };
+		const data = await projectsApi.createNewProject(payload);
+
+		if (data.success)
 		{
-			const res = await fetch(`${import.meta.env.VITE_API_URL}/projects/create`,
-				{
-					method: 'POST',
-					body: JSON.stringify({ projectName: newCreatedProjectName.value }),
-					headers: {
-						'Content-Type': 'application/json'
-					}
-				}
-			)
-
-			const data = await res.json();
-
-			if (data.success)
-			{
-				projects.value = data.projects;
-			}
-
-			else
-				console.log("Ошибка от сервера:", data.message || "Неизвестная ошибка");
+			projects.value.push(data.project);
+			console.log(data.message);
 		}
-		catch(err)
-		{
-			console.log(err);
-		}
+		else console.log(data.message || "Неизвестная ошибка");
 	}
 
 	const deleteProject = async (projectId) =>
 	{
-		try
-		{
-			const res = await fetch(`${import.meta.env.VITE_API_URL}/projects/delete`,
-				{
-					method: 'DELETE',
-					body : JSON.stringify({ projectId }),
-					headers : {
-						'Content-Type' : 'application/json'
-					}
-				}
-			)
+		const data = await projectsApi.deleteProject(projectId)
 
-			const data = await res.json()
-
-			if (data.success)
-				projects.value = data.projects;
-			else
-				console.log(data.message || 'Неизвестная ошибка');
-		}
-		catch(err)
+		if (data.success)
 		{
-			console.log(err);
+			projects.value = projects.value.filter((project) => project.project_id !== projectId);
+			console.log(data.message);
 		}
+		else console.log(data.message || 'Неизвестная ошибка');
 	}
 
 	const renameProject = async (projectId, newProjectName) =>
 	{
-		try
-		{
-			const res = await fetch(`${import.meta.env.VITE_API_URL}/projects/update`,
-				{
-					method: 'PATCH',
-					body: JSON.stringify({ projectId, projectName: newProjectName }),
-					headers: {
-						'Content-Type' : "application/json"
-					}
-				}
-			)
+		const payload = { projectId, projectName: newProjectName }
+		const data = await projectsApi.renameProject(payload);
 
-			const data = await res.json();
-
-			if (data.success)
-				projects.value = data.projects;
-			else
-				console.log(data.message || 'Неизвестная ошибка');
-		}
-		catch(err)
+		if (data.success)
 		{
-			console.log(err);
+			projects.value
+				.find(project => project.project_id === data.project.project_id)
+				.project_name = data.project.project_name;
+
+			console.log(data.message);
 		}
+		else console.log(data.message || 'Неизвестная ошибка');
 	}
 
 	onMounted(async () => await fetchProjects());

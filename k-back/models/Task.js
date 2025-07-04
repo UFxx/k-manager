@@ -3,7 +3,8 @@ export class Task
 	static async getTasksByProjectId(db, project_id)
 	{
 		const sqlQuery = `SELECT * FROM Tasks
-											WHERE project_id = ?;`;
+											WHERE project_id = ?
+											AND is_completed = FALSE;`;
 		const [rows] = await db.query(sqlQuery, [project_id]);
 		return rows;
 	}
