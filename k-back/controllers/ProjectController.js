@@ -11,6 +11,21 @@ class ProjectController
 			})
 	}
 
+	async getProjectById(req, res)
+	{
+		const { projectId } = req.params;
+
+		if (!projectId) return res.status(400).json({
+			success: false,
+			message: 'projectId is required'
+		})
+
+		return res.json({
+			success: true,
+			project: await Project.getProjectById(db, projectId)
+		})
+	}
+
 	async createProject(req, res)
 	{
 		const { projectName } = req.body;
@@ -20,12 +35,12 @@ class ProjectController
 			message: "projectName is required"
 		})
 
-		await Project.createProject(db, projectName);
+		const newProject = await Project.createProject(db, projectName);
 
 		return res.json({
 			success: true,
 			message: "Проект успешно создан",
-			projects: await Project.getAllProjects(db)
+			project: await newProject
 		})
 	}
 
@@ -43,7 +58,6 @@ class ProjectController
 			return res.json({
 				success: true,
 				message: 'Проект удален',
-				projects: await Project.getAllProjects(db)
 			})
 	}
 
@@ -56,12 +70,12 @@ class ProjectController
 			message: 'projectId and projectName is required'
 		})
 
-		await Project.renameProject(db, projectId, projectName);
+		const renamedProject = await Project.renameProject(db, projectId, projectName);
 
 		return res.json({
 			success: true,
 			message: 'Проект переименован',
-			projects: await Project.getAllProjects(db)
+			project: renamedProject
 		})
 	}
 }

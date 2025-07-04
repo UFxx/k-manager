@@ -12,7 +12,8 @@ export class Task
 	{
 		const sqlQuery = `SELECT * FROM Tasks
 											WHERE id = ?;`;
-		await db.query(sqlQuery, [task_id]);
+		const [rows] = await db.query(sqlQuery, [task_id]);
+		return rows[0];
 	}
 
 	static async addTask(db, project_id)
@@ -20,7 +21,11 @@ export class Task
 		const sqlQuery = `INSERT INTO Tasks (project_id)
 											VALUES
 											(?);`;
-		await db.query(sqlQuery, [project_id]);
+		const [result] = await db.query(sqlQuery, [project_id]);
+
+		const taskId = result.insertId;
+
+		return this.getTaskById(db, taskId);
 	}
 
 	static async deleteTask(db, task_id)

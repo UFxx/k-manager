@@ -5,8 +5,9 @@ import ProjectController from '../controllers/ProjectController.js';
 const router = express.Router();
 
 router.get('/', asyncHandler(ProjectController.getAllProjects));
-router.post('/create', asyncHandler(ProjectController.createProject));
-router.delete('/delete', asyncHandler(ProjectController.deleteProject));
-router.patch('/update', asyncHandler(ProjectController.renameProject));
+router.get('/:projectId', asyncHandler(ProjectController.getProjectById));
+router.post('/', asyncHandler(ProjectController.createProject));
+router.delete('/', asyncHandler(ProjectController.deleteProject));
+router.patch('/', asyncHandler(ProjectController.renameProject));
 
 export default router;

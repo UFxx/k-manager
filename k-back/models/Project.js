@@ -6,11 +6,23 @@ export class Project
 		return rows;
 	}
 
+	static async getProjectById(db, project_id)
+	{
+		const sqlQuery = `SELECT * FROM Projects
+											WHERE project_id = ?;`;
+		const [rows] = await db.query(sqlQuery, [project_id]);
+		return rows[0]
+	}
+
 	static async createProject(db, project_name)
 	{
 		const sqlQuery = `INSERT INTO Projects (project_name)
 											VALUES (?)`
-		await db.query(sqlQuery, [project_name]);
+		const [result] = await db.query(sqlQuery, [project_name]);
+
+		const projectId = result.insertId;
+
+		return this.getProjectById(db, projectId);
 	}
 
 	static async deleteProject(db, project_id)
@@ -30,5 +42,7 @@ export class Project
 											SET project_name = ?
 											WHERE project_id = ?`;
 		await db.query(sqlQuery, [project_name, project_id]);
+
+		return this.getProjectById(db, project_id);
 	}
 }

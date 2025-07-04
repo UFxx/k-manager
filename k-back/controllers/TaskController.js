@@ -18,6 +18,21 @@ class TaskController
 		})
 	}
 
+	async getTaskById(req, res)
+	{
+		const { taskId } = req.params;
+
+		if (!taskId) return res.status(400).json({
+			success: false,
+			message: 'taskId is required'
+		})
+
+		return res.json({
+			success: true,
+			task: await Task.getTaskById(db, taskId)
+		})
+	}
+
 	async addTask(req, res)
 	{
 		const { projectId } = req.body;
@@ -27,20 +42,20 @@ class TaskController
 			message: 'projectId is required'
 		})
 
-		await Task.addTask(db, projectId);
+		const newTask = await Task.addTask(db, projectId);
 
 		return res.json({
 			success: true,
 			message: 'Задача добавлена',
-			tasks: await Task.getTasksByProjectId(db, projectId)
+			task: await newTask
 		})
 	}
 
 	async deleteTask(req, res)
 	{
-		const { taskId, projectId } = req.body;
+		const { taskId } = req.body;
 
-		if (!taskId || !projectId) res.status(400).json({
+		if (!taskId) res.status(400).json({
 			success: false,
 			message: 'taskId and projectId is required'
 		})
@@ -50,15 +65,14 @@ class TaskController
 		return res.json({
 			success: true,
 			message: 'Задача удалена',
-			tasks: await Task.getTasksByProjectId(db, projectId)
 		})
 	}
 
 	async editTask(req, res)
 	{
-		const { fieldName, newValue, taskId, projectId } = req.body;
+		const { fieldName, newValue, taskId } = req.body;
 
-		if (!fieldName || !newValue || !taskId || !projectId)
+		if (!fieldName || !newValue || !taskId)
 			return res.status(400).json({
 				success: false,
 				message: "fieldName and newValue and taskId and projectId is required"
@@ -69,7 +83,7 @@ class TaskController
 		return res.json({
 			success: true,
 			message: "Задача изменена",
-			tasks: await Task.getTasksByProjectId(db, projectId)
+			task: await Task.getTaskById(db, taskId)
 		})
 	}
 }

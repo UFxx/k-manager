@@ -4,9 +4,10 @@ import TaskController from '../controllers/TaskController.js';
 
 const router = express.Router();
 
-router.get('/:projectId', asyncHandler(TaskController.getTasksByProjectId));
-router.post('/create', asyncHandler(TaskController.addTask));
-router.delete('/delete', asyncHandler(TaskController.deleteTask));
-router.patch('/edit', asyncHandler(TaskController.editTask));
+router.get('/project/:projectId', asyncHandler(TaskController.getTasksByProjectId));
+router.get('/:taskId', asyncHandler(TaskController.getTaskById));
+router.post('/', asyncHandler(TaskController.addTask));
+router.delete('/', asyncHandler(TaskController.deleteTask));
+router.patch('/', asyncHandler(TaskController.editTask));
 
 export default router;
