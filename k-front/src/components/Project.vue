@@ -1,5 +1,5 @@
 <script setup>
-	import { ref, onMounted } from 'vue';
+	import { ref, onMounted, provide } from 'vue';
 	import Task from '@/Task.vue';
 
 	import tasksApi from '~/src/api/tasks'
@@ -20,6 +20,8 @@
 	const tasks = ref([]);
 	const newProjectName = ref(props.projectName);
 
+	provide('tasks', tasks);
+
 	const fetchTasks = async () =>
 	{
 		const data = await tasksApi.fetchTasks(props.projectId);
@@ -39,39 +41,6 @@
 			console.log(data.message);
 		}
 		else console.log(data.message || 'Неизвестная ошибка');
-	}
-
-	const deleteTask = async (taskId) =>
-	{
-		const data = await tasksApi.deleteTask(taskId);
-
-		if (data.success)
-		{
-			tasks.value = tasks.value.filter(task => task.id !== taskId);
-			console.log(data.message);
-		}
-		else console.log(data.message);
-	}
-
-	let editTaskDebouncerTimeout;
-
-	const editTask = async (fieldName, newValue, taskId) =>
-	{
-		if (editTaskDebouncerTimeout) clearTimeout(editTaskDebouncerTimeout)
-
-		editTaskDebouncerTimeout = setTimeout(async () =>
-		{
-			const payload = { fieldName, newValue, taskId }
-			const data = await tasksApi.editTask(payload);
-
-			if (data.success)
-			{
-				const affectedTaskIdx = tasks.value.findIndex(task => task.id === taskId);
-				tasks.value[affectedTaskIdx] = data.task;
-				console.log(data.message);
-			}
-			else console.log(data.message);
-		}, 2000)
 	}
 
 	onMounted(() => fetchTasks());
@@ -100,7 +69,7 @@
 				<th>Расположение</th>
 				<th>Отсутствие</th>
 				<th>Важность</th>
-				<th>Сделано</th>
+				<th>Статус</th>
 				<th>Комментарий</th>
 			</tr>
 			<TransitionGroup

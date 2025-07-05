@@ -70,15 +70,15 @@ class TaskController
 
 	async editTask(req, res)
 	{
-		const { fieldName, newValue, taskId } = req.body;
+		const { location, available, importance, status, comment, taskId } = req.body;
 
-		if (!fieldName || !newValue || !taskId)
+		if (!location || !available || !importance || !status || !comment || !taskId)
 			return res.status(400).json({
 				success: false,
-				message: "fieldName and newValue and taskId and projectId is required"
+				message: "location, available, importance, status, comment, taskId is required"
 			})
 
-		await Task.editTask(db, fieldName, newValue, taskId);
+		await Task.editTask(db, location, available, importance, status, comment, taskId);
 
 		return res.json({
 			success: true,

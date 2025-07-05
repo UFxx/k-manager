@@ -1,6 +1,10 @@
 <script setup>
-	import TaskField from '@/TaskField.vue';
-	import { ref } from 'vue';
+	import StringTaskField from '@/TaskFields/StringTaskField.vue';
+	import EditTaskField from '@/TaskFields/EditTaskField.vue';
+	import { reactive, ref, inject } from 'vue';
+	import tasksApi from '~/src/api/tasks';
+
+	const tasks = inject('tasks');
 
 	const props = defineProps({
 		taskId:{
@@ -38,38 +42,89 @@
 		}
 	})
 
-	const emit = defineEmits(['deleteTask', 'editTask']);
+	const editTask = async () =>
+	{
+		const payload = { ...task, taskId: props.taskId }
+		const data = await tasksApi.editTask(payload);
 
-	const inputValue = ref(null);
+		if (data.success)
+		{
+			const affectedTaskIdx = tasks.value.findIndex(task => task.id === props.taskId);
+			tasks.value[affectedTaskIdx] = data.task;
+			console.log(data.message);
+		}
+		else console.log(data.message);
+	}
 
+	const deleteTask = async (taskId) =>
+	{
+		const data = await tasksApi.deleteTask(taskId);
+
+		if (data.success)
+		{
+			tasks.value = tasks.value.filter(task => task.id !== taskId);
+			console.log(data.message);
+		}
+		else console.log(data.message);
+	}
+
+	const task = reactive({
+		location: props.location,
+		available: props.available,
+		importance: props.importance,
+		status: props.status,
+		comment: props. comment
+	})
+
+	const canEditTask = ref(false);
+	const fieldName = ref(null);
+
+	let originalTask = {};
+	const toggleCanEditTask = (type) =>
+	{
+
+		if (type === 'edit')
+		{
+			canEditTask.value = false;
+			editTask(fieldName.value, task[fieldName.value]);
+		}
+		else if (type === 'cancel')
+		{
+			canEditTask.value = false;
+			for (let key in originalTask)
+			{
+				task[key] = originalTask[key];
+			}
+		}
+		else
+		{
+			canEditTask.value = true
+			originalTask = {...task};
+		};
+	};
+
+	const changeFieldName = (newFieldName) => fieldName.value = newFieldName;
 </script>
-<!-- Значения в инпуте нет, потому что не доделал двухстороннее связывание -->
+
 <template>
 	<tr class="project-table__row">
-		<td>{{ props.numeration }}.</td>
-		<!-- <td>
-			<input
-				v-model="locationInputValue"
-				type="text"
-				@input="emit('editTask', taskId, projectId, 'location', locationInputValue)"
-			/>
-		</td> -->
-		<task-field
-			v-model="inputValue"
-			:value="props.location"
-			:fieldName="`location`"
-			:taskId="taskId"
-			:projectId="projectId"
-		/>
-		<td>{{ props.available }}</td>
-		<td>{{ props.importance }}</td>
-		<td>{{ props.status }}</td>
-		<td>{{ props.comment }}</td>
-		<td>
-			<button @click="emit('deleteTask', props.taskId, props.projectId)">
-				Удалить задачу
-			</button>
+		<td class="project-table__first-column">
+			{{ props.numeration }}.
 		</td>
+		<string-task-field
+			v-for="(t, i) in task"
+			:key="i"
+			v-model="task[i]"
+			:fieldName="i"
+			:taskId
+			:canEditTask
+			@change-field-name="changeFieldName"
+		/>
+		<EditTaskField
+			:taskId
+			:canEditTask
+			@toggle-can-edit-task="toggleCanEditTask"
+		/>
 	</tr>
 </template>
 
@@ -78,19 +133,8 @@
 	{
 		text-align: center;
 
-		td
-		{
-			border: 1px solid black;
+		&:hover { background-color: rgba(black, $alpha: 0.3); }
 
-			input
-			{
-				width: 100%;
-				height: 100%;
-				padding: 5px;
-				padding-right: 0;
-				border: none;
-				font-size: 14px;
-			}
-		}
+		td { border: 1px solid black; }
 	}
 </style>
