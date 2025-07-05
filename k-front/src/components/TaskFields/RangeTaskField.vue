@@ -46,27 +46,31 @@
 		border-radius: 30px;
 		padding: 10px;
 		width: calc(100% - 10px);
-		z-index: -1;
 		height: 20px;
 		margin-left: 5px;
+		z-index: 1;
 
-		div
-		{
-			position: absolute;
-			border-radius: 30px;
-			top: 50%;
-			height: 50%;
-			transform: translateY(-51%);
-			left: 0;
-			transition: .3s ease-in-out width, .3s ease background-color;
-		}
+			div
+			{
+				position: absolute;
+				border-radius: 30px;
+				top: 50%;
+				height: 50%;
+				transform: translateY(-51%);
+				left: 0;
+
+				@include tr(0.3, width, background-color);
+			}
 	}
 
 	input
 	{
+		position: relative;
 		opacity: 0;
 		width: 100%;
+		height: 100%;
 		cursor: pointer;
+		z-index: 2;
 
 		&:disabled { cursor: default; }
 	}

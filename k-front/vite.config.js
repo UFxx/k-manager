@@ -15,7 +15,7 @@ export default defineConfig({
 			'~': fileURLToPath(new URL('./', import.meta.url)),
 		}
 	},
-	server: { port: 4000 },
+	server: { port: 3001 },
 	css: {
 		preprocessorOptions: {
 			scss: {
@@ -25,7 +25,7 @@ export default defineConfig({
 					@use "~/src/assets/scss/_variables.scss" as *;
 				`,
 				api: 'modern-compiler'
-			}
+		}
 		}
 	},
 })

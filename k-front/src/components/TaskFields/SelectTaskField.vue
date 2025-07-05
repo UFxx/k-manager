@@ -104,15 +104,31 @@
 			padding: 10px;
 			font-size: 14px;
 			border-radius: 8px;
-			transition: .3s ease box-shadow, .3s ease transform;
 			color: white;
+			opacity: 1;
+
+			@include tr(0.3, box-shadow, transform);
+
+			&:hover
+			{
+				box-shadow: 0 4px 4px 0 rgba($black-color, 0.25);
+				transform: translateY(-4px);
+			}
 		}
 
 		&.disabled {
-			button { cursor: default; }
+			button
+			{
+				cursor: default;
+
+				&:hover
+				{
+					box-shadow: none;
+					transform: none;
+				}
+			}
 		}
 	}
-
 
 	.dropdown
 	{
@@ -122,25 +138,10 @@
 		transform: translateX(-50%);
 		z-index: 1;
 		padding: 5px;
-		background-color: rgba(#AAAAAA, 0.1);
+		background-color: rgba($gray-color, 0.1);
 		border-radius: 8px;
-		box-shadow: 0 4px 4px 0 rgba(#000000, 0.25);
+		box-shadow: 0 4px 4px 0 rgba($black-color, 0.25);
 		backdrop-filter: blur(4px);
-
-		button
-		{
-			width: 100%;
-			padding: 10px;
-			font-size: 14px;
-			border-radius: 8px;
-			transition: .3s ease box-shadow, .3s ease transform;
-
-			&:hover
-			{
-				box-shadow: 0 4px 4px 0 rgba(#000000, 0.25);
-				transform: translateY(-4px);
-			}
-		}
 
 		ul {
 			width: 100%;
@@ -162,12 +163,13 @@
 		left: 50%;
 		transform: translateX(-50%);
 		z-index: 1;
-		transition: all 0.3s ease;
+
+		@include tr(0.3, transform, opacity)
 	}
 
 	.dropdown-enter-from,
 	.dropdown-leave-to {
-			opacity: 0;
-			transform: translateX(-50%) translateY(-4px);
+		opacity: 0;
+		transform: translateX(-50%) translateY(-5px);
 	}
 </style>

@@ -12,7 +12,6 @@
 
 	const model = defineModel();
 	const emit = defineEmits(['confirmEdit', 'changeInputValue']);
-
 </script>
 
 <template>
@@ -28,7 +27,8 @@
 </template>
 
 <style lang="scss" scoped>
-	input
+	input,
+	textarea
 	{
 		width: 100%;
 		height: 100%;
@@ -37,6 +37,6 @@
 		border: none;
 		font-size: 14px;
 
-		&:disabled { color: black; }
+		&:disabled { color: white; }
 	}
 </style>

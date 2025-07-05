@@ -1,8 +1,12 @@
 <script setup>
 	import { ref, onMounted } from 'vue';
 	import Project from '@/Project.vue';
+	import Toaster from '@/Toaster.vue';
 
 	import projectsApi from '~/src/api/projects'
+
+	import { useToastsStore } from './stores/toastsStore';
+	const toastsStore = useToastsStore();
 
 	const projects = ref([]);
 	const newCreatedProjectName = ref(null);
@@ -12,7 +16,7 @@
 		const data = await projectsApi.fetchProjects();
 
 		if (data.success) projects.value = data.projects;
-		else console.log(data.message || "Неизвестная ошибка");
+		else toastsStore.useToast(data.message, 'error');
 	}
 
 	const createNewProject = async () =>
@@ -23,9 +27,9 @@
 		if (data.success)
 		{
 			projects.value.push(data.project);
-			console.log(data.message);
+			toastsStore.useToast(data.message, 'success');
 		}
-		else console.log(data.message || "Неизвестная ошибка");
+		else toastsStore.useToast(data.message, 'error');
 	}
 
 	const deleteProject = async (projectId) =>
@@ -35,9 +39,9 @@
 		if (data.success)
 		{
 			projects.value = projects.value.filter((project) => project.project_id !== projectId);
-			console.log(data.message);
+			toastsStore.useToast(data.message, 'success');
 		}
-		else console.log(data.message || 'Неизвестная ошибка');
+		else toastsStore.useToast(data.message, 'error');
 	}
 
 	const renameProject = async (projectId, newProjectName) =>
@@ -60,6 +64,7 @@
 </script>
 
 <template>
+	<Toaster />
 	<div class="container">
 		<main>
 			<TransitionGroup
@@ -88,14 +93,15 @@
 	</div>
 </template>
 
-<style>
+<style lang="scss">
 	.projects-container { overflow: hidden; }
 
 	.project-fade-enter-active,
 	.project-fade-leave-active {
-		transition: all 0.5s ease;
 		max-height: 200px;
 		opacity: 1;
+
+		@include tr(0.3, opacity, transform);
 	}
 
 	.project-fade-enter-from,
@@ -105,5 +111,5 @@
 		max-height: 0;
 	}
 
-	.project-fade-move { transition: transform 0.3s ease; }
+	.project-fade-move { @include tr(0.5, transform); }
 </style>

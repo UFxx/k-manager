@@ -36,7 +36,7 @@ export class Task
 		await db.query(sqlQuery, [task_id]);
 	}
 
-	static async editTask(db, location, available, importancy, status, comment, task_id)
+	static async editTask(db, location, available, importance, status, comment, task_id)
 	{
 		const sqlQuery = `UPDATE Tasks
 											SET location = ?,
@@ -45,6 +45,6 @@ export class Task
 											status = ?,
 											comment = ?
 											WHERE id = ?;`;
-		await db.query(sqlQuery, [location, available, importancy, status, comment, task_id]);
+		await db.query(sqlQuery, [location, available, importance, status, comment, task_id]);
 	}
 }

@@ -137,13 +137,17 @@
 	{
 		text-align: center;
 
-		&:hover { background-color: rgba(#AAAAAA, $alpha: 0.1); }
+		@include tr(0.2, background-color);
+
+		&:hover { background-color: rgba($gray-color, $alpha: 0.1); }
 
 		td
 		{
 			border: 1px solid black;
 
-			&:hover { background-color: rgba(#AAAAAA, $alpha: 0.2); }
+			@include tr(0.2, background-color);
+
+			&:hover { background-color: rgba($gray-color, $alpha: 0.2); }
 		}
 	}
 </style>
