@@ -15,16 +15,17 @@ export default defineConfig({
 			'~': fileURLToPath(new URL('./', import.meta.url)),
 		}
 	},
-	server: { port: 3001 },
+	server: { port: 4000 },
 	css: {
 		preprocessorOptions: {
 			scss: {
 				additionalData: `
 					@use "~/src/assets/scss/_mixins.scss" as *;
 					@use "~/src/assets/scss/_fonts.scss" as *;
+					@use "~/src/assets/scss/_variables.scss" as *;
 				`,
 				api: 'modern-compiler'
-		}
+			}
 		}
 	},
 })
