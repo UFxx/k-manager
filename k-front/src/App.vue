@@ -60,28 +60,32 @@
 </script>
 
 <template>
-	<TransitionGroup
-		name="project-fade"
-		tag="div"
-		class="project-container"
-	>
-		<Project
-			v-for="project in projects"
-			:key="project.project_id"
-			:projectName="project.project_name"
-			:projectId="project.project_id"
-			@delete-project="deleteProject"
-			@rename-project="renameProject"
-		/>
-	</TransitionGroup>
-	<input
-		v-model="newCreatedProjectName"
-		type="text"
-		placeholder="Имя проекта"
-	/>
-	<button @click="createNewProject">
-		Добавить проект
-	</button>
+	<div class="container">
+		<main>
+			<TransitionGroup
+				name="project-fade"
+				tag="div"
+				class="project-container"
+			>
+				<Project
+					v-for="project in projects"
+					:key="project.project_id"
+					:projectName="project.project_name"
+					:projectId="project.project_id"
+					@delete-project="deleteProject"
+					@rename-project="renameProject"
+				/>
+			</TransitionGroup>
+			<input
+				v-model="newCreatedProjectName"
+				type="text"
+				placeholder="Имя проекта"
+			/>
+			<button @click="createNewProject">
+				Добавить проект
+			</button>
+		</main>
+	</div>
 </template>
 
 <style>

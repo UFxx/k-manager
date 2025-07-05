@@ -47,7 +47,10 @@
 </script>
 
 <template>
-	<table class="project-table">
+	<table
+		class="project-table"
+		cellspacing="0"
+	>
 		<caption>
 			<button @click="emit('renameProject', props.projectId, newProjectName)">
 				Переименовать
@@ -67,10 +70,11 @@
 					№
 				</th>
 				<th>Расположение</th>
-				<th>Отсутствие</th>
+				<th>Наличие</th>
 				<th>Важность</th>
 				<th>Статус</th>
 				<th>Комментарий</th>
+				<th />
 			</tr>
 			<TransitionGroup
 				name="project-fade"
@@ -91,26 +95,76 @@
 					@edit-task="editTask"
 				/>
 			</TransitionGroup>
-			<tr class="project-table__last-row">
-				<td />
-				<td>
+			<tr
+				class="project-table__last-row"
+			>
+				<td colspan="7">
 					<button
 						@click="addTask"
 					>
 						Добавить задачу
 					</button>
 				</td>
-				<td />
-				<td />
-				<td />
-				<td />
 			</tr>
 		</tbody>
 	</table>
 </template>
 
 <style lang='scss'>
-	.project-table { width: 100%; }
+	.project-table
+	{
+		width: 100%;
+		border-collapse: collapse;
+
+		td
+		{
+			padding: 5px;
+
+			input, textarea { font-size: 14px; }
+		}
+
+		td,
+		th,
+		tr th { border-color: white; }
+
+		td:first-child { border-left: none; }
+
+		td:last-child
+		{
+			border-right: none;
+
+			button
+			{
+				width: 100%;
+				color: rgba(white, 0.5);
+				transition: .3s ease color;
+
+				&:hover { color: white; }
+			}
+		}
+
+		tr:nth-last-child(2) td { border-bottom-color: transparent; }
+	}
+
+	.project-table__header
+	{
+		th
+		{
+			border: 1px solid black;
+			border-top: none;
+			font-weight: normal;
+			font-size: 18px;
+
+			&:last-child { border-right: none; }
+		}
+
+		.project-table__numeration-column
+		{
+			width: 30px;
+			padding: 5px;
+			border-left: none;
+		}
+	}
 
 	.project-table__last-row
 	{
@@ -118,23 +172,7 @@
 		{
 			height: 40px;
 			border: 1px solid black;
+			border-bottom: none;
 		}
 	}
-
-	.project-table__header
-	{
-		th
-		{
-			width: 20%;
-			border: 1px solid black;
-			border-radius: 4px;
-		}
-
-		.project-table__numeration-column
-		{
-			width: 30px;
-			padding: 5px;
-		}
-	}
-
 </style>

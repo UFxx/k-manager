@@ -4,10 +4,6 @@
 			type: String,
 			required: true
 		},
-		taskId: {
-			type: Number,
-			required: true
-		},
 		canEditTask: {
 			type: Boolean,
 			required: true
@@ -15,22 +11,18 @@
 	})
 
 	const model = defineModel();
-	const emit = defineEmits(['update:modelValue', 'changeFieldName']);
+	const emit = defineEmits(['confirmEdit', 'changeInputValue']);
 
-	const changeInputValue = (value) =>
-	{
-		emit('update:modelValue', value);
-		emit('changeFieldName', props.fieldName);
-	}
 </script>
 
 <template>
 	<td>
-		<input
+		<textarea
 			v-model="model"
 			type="text"
 			:disabled="!props.canEditTask"
-			@input="changeInputValue($event.target.value)"
+			@input="emit('changeInputValue', $event.target.value)"
+			@keydown="emit('confirmEdit', $event.key)"
 		/>
 	</td>
 </template>
@@ -45,10 +37,6 @@
 		border: none;
 		font-size: 14px;
 
-		&:disabled
-		{
-			color: black;
-			cursor: no-drop;
-		}
+		&:disabled { color: black; }
 	}
 </style>

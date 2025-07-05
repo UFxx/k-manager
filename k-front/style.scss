@@ -4,6 +4,38 @@
 	padding: 0;
 	box-sizing: border-box;
 	font-family: 'Unbounded', sans-serif;
+	color: white;
 }
 
-button { cursor: pointer; }
+body
+{
+	position: relative;
+	overflow: auto;
+	background: #5B5B5B;
+	background: radial-gradient(at center, #5B5B5B, #434343);
+}
+
+.container
+{
+	max-width: 1440px;
+	margin: 0 auto;
+}
+
+main { margin-top: 60px; }
+
+button
+{
+	cursor: pointer;
+	outline: none;
+	border: none;
+	background-color: transparent;
+}
+
+input,
+textarea
+{
+	background-color: transparent;
+	outline: none;
+	border: none;
+	resize: none;
+}

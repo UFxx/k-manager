@@ -31,5 +31,3 @@
 		</template>
 	</td>
 </template>
-
-<style lang='scss'></style>

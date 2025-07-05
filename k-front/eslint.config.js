@@ -78,6 +78,7 @@ export default [
 				"switchCase": 1,
 				"ignores": []
 			}],
+			"vue/require-prop-types" : ["off"]
 		},
 		languageOptions:
 		{
