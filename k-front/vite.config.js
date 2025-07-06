@@ -23,6 +23,7 @@ export default defineConfig({
 					@use "~/src/assets/scss/_mixins.scss" as *;
 					@use "~/src/assets/scss/_fonts.scss" as *;
 					@use "~/src/assets/scss/_variables.scss" as *;
+					@use "~/src/assets/scss/_extends.scss" as *;
 				`,
 				api: 'modern-compiler'
 		}

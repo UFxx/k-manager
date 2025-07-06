@@ -26,16 +26,9 @@ class ProjectController
 		})
 	}
 
-	async createProject(req, res)
+	async createProject(_, res)
 	{
-		const { projectName } = req.body;
-
-		if (!projectName) return res.status(400).json({
-			success: false,
-			message: "projectName is required"
-		})
-
-		const newProject = await Project.createProject(db, projectName);
+		const newProject = await Project.createProject(db, 'Новый проект');
 
 		return res.json({
 			success: true,

@@ -5,9 +5,9 @@ export default {
 	{
 		return (await $axios.get(`/projects`)).data;
 	},
-	createNewProject: async (payload) =>
+	createNewProject: async () =>
 	{
-		return (await $axios.post(`/projects`, { ...payload })).data;
+		return (await $axios.post(`/projects`)).data;
 	},
 	deleteProject: async (projectId) =>
 	{

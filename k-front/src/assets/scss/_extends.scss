@@ -1,0 +1,17 @@
+@use './mixins' as *;
+@use './variables' as *;
+
+%header-button
+{
+	padding: 10px;
+	border-radius: 8px;
+
+	@include tr(0.3, background-color, box-shadow, transform);
+
+	&:hover
+	{
+		background-color: rgba($gray-color, 0.1);
+		box-shadow: 0 4px 4px 0 rgba($black-color, 0.25);
+		transform: translateY(-4px);
+	}
+}

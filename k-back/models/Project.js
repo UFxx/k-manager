@@ -17,7 +17,7 @@ export class Project
 	static async createProject(db, project_name)
 	{
 		const sqlQuery = `INSERT INTO Projects (project_name)
-											VALUES (?)`
+											VALUES (?);`;
 		const [result] = await db.query(sqlQuery, [project_name]);
 
 		const projectId = result.insertId;

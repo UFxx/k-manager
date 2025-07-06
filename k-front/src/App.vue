@@ -1,34 +1,23 @@
 <script setup>
-	import { ref, onMounted } from 'vue';
+	import { ref, onMounted, provide } from 'vue';
 	import Project from '@/Project.vue';
 	import Toaster from '@/Toaster.vue';
+	import Header from '@/Header.vue';
 
 	import projectsApi from '~/src/api/projects'
 
-	import { useToastsStore } from './stores/toastsStore';
+	import { useToastsStore } from '~/src/stores/toastsStore';
 	const toastsStore = useToastsStore();
 
 	const projects = ref([]);
-	const newCreatedProjectName = ref(null);
+
+	provide('projects', projects);
 
 	const fetchProjects = async () =>
 	{
 		const data = await projectsApi.fetchProjects();
 
 		if (data.success) projects.value = data.projects;
-		else toastsStore.useToast(data.message, 'error');
-	}
-
-	const createNewProject = async () =>
-	{
-		const payload = { projectName: newCreatedProjectName.value };
-		const data = await projectsApi.createNewProject(payload);
-
-		if (data.success)
-		{
-			projects.value.push(data.project);
-			toastsStore.useToast(data.message, 'success');
-		}
 		else toastsStore.useToast(data.message, 'error');
 	}
 
@@ -64,6 +53,7 @@
 
 <template>
 	<Toaster />
+	<Header />
 	<div class="container">
 		<main>
 			<TransitionGroup
@@ -80,14 +70,6 @@
 					@rename-project="renameProject"
 				/>
 			</TransitionGroup>
-			<input
-				v-model="newCreatedProjectName"
-				type="text"
-				placeholder="Имя проекта"
-			/>
-			<button @click="createNewProject">
-				Добавить проект
-			</button>
 		</main>
 	</div>
 </template>
