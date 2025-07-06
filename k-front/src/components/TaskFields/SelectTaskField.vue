@@ -1,21 +1,8 @@
 <script setup>
 	import { ref, computed } from 'vue'
 
-	const props = defineProps({
-		fieldName: {
-			type: String,
-			required: true
-		},
-		canEditTask: {
-			type: Boolean,
-			required: true
-		}
-	})
-
 	const model = defineModel();
-	const emit = defineEmits(['changeInputValue']);
-
-	const isDropdownOpened = ref(false);
+	const emit = defineEmits(['changeInputValue', 'confirmEdit']);
 
 	const statuses = ref([
 		{
@@ -45,18 +32,21 @@
 		}
 	]);
 
+	const isDropdownOpened = ref(false);
+
 	const unselectedStatuses = computed(() => statuses.value.filter((_, i) => i !== model.value))
 
 	const changeSelectValue = (status) =>
 	{
 		emit('changeInputValue', status.statusCode);
+		emit('confirmEdit');
 		isDropdownOpened.value = false;
 	}
 </script>
 
 <template>
 	<td>
-		<div :class="['container', !props.canEditTask ? 'disabled' : null]">
+		<div class="container">
 			<button
 				:style="{backgroundColor: statuses[model].color}"
 				@click="isDropdownOpened = !isDropdownOpened"
@@ -72,7 +62,7 @@
 				leaveToClass="dropdown-leave-to"
 			>
 				<div
-					v-if="isDropdownOpened && props.canEditTask"
+					v-if="isDropdownOpened"
 					class="dropdown"
 				>
 					<ul>
@@ -114,19 +104,6 @@
 			{
 				box-shadow: 0 4px 4px 0 rgba($black-color, 0.25);
 				transform: translateY(-4px);
-			}
-		}
-
-		&.disabled {
-			button
-			{
-				cursor: default;
-
-				&:hover
-				{
-					box-shadow: none;
-					transform: none;
-				}
 			}
 		}
 	}

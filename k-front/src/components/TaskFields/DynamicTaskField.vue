@@ -54,8 +54,7 @@
 	<select-task-field
 		v-if="props.type === 'select'"
 		v-model="model"
-		:fieldName="props.fieldName"
-		:canEditTask="props.canEditTask"
 		@change-input-value="changeInputValue"
+		@confirm-edit="emit('confirmEdit', 'edit')"
 	/>
 </template>

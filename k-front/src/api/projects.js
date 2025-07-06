@@ -1,20 +1,20 @@
-import { $axios } from "../services/api";
+import apiClient from "../services/api";
 
 export default {
 	fetchProjects: async () =>
 	{
-		return (await $axios.get(`/projects`)).data;
+		return (await apiClient.get(`/projects`)).data;
 	},
 	createNewProject: async () =>
 	{
-		return (await $axios.post(`/projects`)).data;
+		return (await apiClient.post(`/projects`)).data;
 	},
 	deleteProject: async (projectId) =>
 	{
-		return (await $axios.delete(`/projects/${projectId}`)).data;
+		return (await apiClient.delete(`/projects/${projectId}`)).data;
 	},
 	renameProject: async (payload) =>
 	{
-		return (await $axios.patch(`/projects`, {...payload})).data;
+		return (await apiClient.patch(`/projects`, {...payload})).data;
 	},
 }

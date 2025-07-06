@@ -111,6 +111,7 @@
 					v-model="newProjectName"
 					type="text"
 					placeholder="Название проекта"
+					:disabled="!canEditProject"
 				/>
 			</caption>
 			<tbody>

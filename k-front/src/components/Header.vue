@@ -4,8 +4,10 @@
 	import projectsApi from '~/src/api/projects'
 
 	import { useToastsStore } from '~/src/stores/toastsStore';
+	import { useLoaderStore } from '~/src/stores/loaderStore';
 
 	const toastsStore = useToastsStore();
+	const loaderStore = useLoaderStore();
 	const projects = inject('projects');
 
 	const createNewProject = async () =>
@@ -45,6 +47,7 @@
 		</div>
 		<div class="header__refresh-indicator">
 			<Icon
+				v-show="loaderStore.isLoading"
 				path="refresh-indicator.svg"
 				size="small"
 			/>
@@ -92,12 +95,20 @@
 		}
 	}
 
+	@keyframes load {
+		from
+		{
+			transform: rotate(0);
+		}
+		to
+		{
+			transform: rotate(360deg);
+		}
+	}
+
 	.header__refresh-indicator
 	{
-		opacity: 0;
-
-		@include tr(0.3, opacity);
-
-		&.active { opacity: 1; }
+		opacity: 0.4;
+		animation: load 1.5s infinite linear;
 	}
 </style>

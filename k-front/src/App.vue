@@ -15,6 +15,7 @@
 
 	const fetchProjects = async () =>
 	{
+
 		const data = await projectsApi.fetchProjects();
 
 		if (data.success) projects.value = data.projects;
