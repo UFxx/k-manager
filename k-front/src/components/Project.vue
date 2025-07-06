@@ -3,6 +3,8 @@
 	import Task from '@/Task.vue';
 
 	import tasksApi from '~/src/api/tasks'
+	import { useToastsStore } from '~/src/stores/toastsStore';
+	const toastsStore = useToastsStore()
 
 	const props = defineProps({
 		projectName: {
@@ -28,7 +30,7 @@
 		const data = await tasksApi.fetchTasks(props.projectId);
 
 		if (data.success) tasks.value = data.tasks;
-		else console.log(data.message || "Неизвестная ошибка");
+		else toastsStore.useToast(data.message, 'error');
 	}
 
 	const addTask = async () =>
@@ -39,9 +41,9 @@
 		if (data.success)
 		{
 			tasks.value.push(data.task);
-			console.log(data.message);
+			toastsStore.useToast(data.message, 'success');
 		}
-		else console.log(data.message || 'Неизвестная ошибка');
+		else toastsStore.useToast(data.message, 'error');
 	}
 
 	let originalProjectName;
@@ -202,7 +204,7 @@
 			{
 				border-right: none;
 
-				button { width: 100%; }
+				button { width: auto; }
 			}
 		}
 
@@ -253,12 +255,20 @@
 			height: 40px;
 			border: 1px solid black;
 			border-bottom: none;
+			text-align: center;
 
 			@include tr(0.3, background-color);
 
 			&:hover { background-color: rgba($gray-color, 0.3); }
-
-			button { height: 100%; }
 		}
+	}
+
+	.project-table .project-table__last-row td
+	{
+		button
+			{
+				height: 100%;
+				width: 100%;
+			}
 	}
 </style>

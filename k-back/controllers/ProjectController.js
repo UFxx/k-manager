@@ -65,7 +65,7 @@ class ProjectController
 	{
 		const { projectId, projectName } = req.body;
 
-		if (!projectId || !projectName) return res.status(400).json({
+		if (!projectId || projectName === undefined) return res.status(400).json({
 			success: false,
 			message: 'projectId and projectName is required'
 		})

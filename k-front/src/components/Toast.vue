@@ -67,26 +67,10 @@
 			opacity: 0.7;
 			transform: translateY(4px);
 			box-shadow: none;
-
-			// &::before { opacity: 1; }
 		}
-
-		// &::before
-		// {
-		// 	position: absolute;
-		// 	content: '';
-		// 	left: 0;
-		// 	top: 0;
-		// 	width: 100%;
-		// 	height: 100%;
-		// 	border-radius: 8px;
-		// 	opacity: 0;
-		// 	background-image: url('../../public/icons/times.svg');
-
-		// 	@include tr(0.3, opacity);
-		// }
 
 		&.success { background-color: #2bbd2b; }
 		&.error { background-color: red; }
+		&.info { background-color: #ffc300; }
 	}
 </style>

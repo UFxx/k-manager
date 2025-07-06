@@ -105,6 +105,7 @@
 			font-size: 14px;
 			border-radius: 8px;
 			color: white;
+			white-space: nowrap;
 			opacity: 1;
 
 			@include tr(0.3, box-shadow, transform);

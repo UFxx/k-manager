@@ -1,9 +1,10 @@
 <script setup>
 	import DynamicTaskField from '@/TaskFields/DynamicTaskField.vue';
 	import EditTaskField from '@/TaskFields/EditTaskField.vue';
-	import DeleteTaskField from '@/TaskFields/DeleteTaskField.vue';
 	import { reactive, ref, computed, inject } from 'vue';
 	import tasksApi from '~/src/api/tasks';
+	import { useToastsStore } from '~/src/stores/toastsStore';
+	const toastsStore = useToastsStore()
 
 	const tasks = inject('tasks');
 
@@ -52,9 +53,9 @@
 		{
 			const affectedTaskIdx = tasks.value.findIndex(task => task.id === props.taskId);
 			tasks.value[affectedTaskIdx] = data.task;
-			console.log(data.message);
+			toastsStore.useToast(data.message, 'info');
 		}
-		else console.log(data.message);
+		else toastsStore.useToast(data.message, 'error');
 	}
 
 	const task = reactive({
@@ -101,16 +102,10 @@
 <template>
 	<tr class="project-table__row">
 		<td
-			v-if="!canEditTask"
 			class="project-table__first-column"
 		>
 			{{ props.numeration }}.
 		</td>
-		<delete-task-field
-			v-else
-			:canEditTask
-			:taskId
-		/>
 
 		<DynamicTaskField
 			v-for="(_, key) in task"

@@ -72,7 +72,7 @@ class TaskController
 	{
 		const { location, available, importance, status, comment, taskId } = req.body;
 
-		if (!location || !available || !importance || status === undefined || !comment || !taskId)
+		if (location === undefined || available === undefined || !importance || status === undefined || comment === undefined || !taskId)
 			return res.status(400).json({
 				success: false,
 				message: "location, available, importance, status, comment, taskId is required"

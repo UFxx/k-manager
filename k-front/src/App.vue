@@ -54,10 +54,9 @@
 			projects.value
 				.find(project => project.project_id === data.project.project_id)
 				.project_name = data.project.project_name;
-
-			console.log(data.message);
+			toastsStore.useToast(data.message, 'info');
 		}
-		else console.log(data.message || 'Неизвестная ошибка');
+		else toastsStore.useToast(data.message, 'error');
 	}
 
 	onMounted(async () => await fetchProjects());
