@@ -3,7 +3,7 @@ import { $axios } from "../services/api";
 export default {
 	fetchProjects: async () =>
 	{
-			return (await $axios.get(`/projects`)).data;
+		return (await $axios.get(`/projects`)).data;
 	},
 	createNewProject: async (payload) =>
 	{

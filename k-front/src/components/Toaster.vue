@@ -1,15 +1,14 @@
 <script setup>
 	import Toast from '@/Toast.vue';
 	import { useToastsStore } from '../stores/toastsStore';
-
-	const toasts = useToastsStore().toasts;
+	const toastsStore = useToastsStore();
 </script>
 
 <template>
 	<div class="toasts-container">
 		<TransitionGroup name="toast-fade">
 			<Toast
-				v-for="toast in toasts"
+				v-for="toast in toastsStore.toasts"
 				:id="toast.id"
 				:key="toast.id"
 				:message="toast.message"
