@@ -26,9 +26,9 @@
 		flex-direction: column;
 		align-items: flex-end;
 		row-gap: 10px;
-		top: 30px;
+		top: 10px;
 		right: 30px;
-		z-index: 2;
+		z-index: 3;
 	}
 
 	@keyframes slide-up {

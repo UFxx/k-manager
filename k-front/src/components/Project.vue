@@ -29,7 +29,13 @@
 	{
 		const data = await tasksApi.fetchTasks(props.projectId);
 
-		if (data.success) tasks.value = data.tasks;
+		if (data.success)
+		{
+			tasks.value = data.tasks.map(task =>
+			{
+				return { ...task, isSelected: false };
+			});
+		}
 		else toastsStore.useToast(data.message, 'error');
 	}
 
@@ -64,6 +70,13 @@
 			canEditProject.value = true
 			originalProjectName = props.projectName;
 		}
+	}
+
+	const changeTaskSelection = (taskId) =>
+	{
+		const getTaskIdx = tasks.value.findIndex(task => task.id === taskId);
+		const task = tasks.value[getTaskIdx];
+		task.isSelected = !task.isSelected;
 	}
 
 	onMounted(() => fetchTasks());
@@ -151,8 +164,10 @@
 						:comment="task.comment"
 						:projectId="task.project_id"
 						:taskId="task.id"
+						:isSelected="task.isSelected"
 						@delete-task="deleteTask"
 						@edit-task="editTask"
+						@change-task-selection="changeTaskSelection"
 					/>
 				</TransitionGroup>
 				<tr

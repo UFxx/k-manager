@@ -41,8 +41,26 @@
 		projectId: {
 			type: Number,
 			required: true
+		},
+		isSelected: {
+			type: Boolean,
+			required: false
 		}
 	})
+
+	const emit = defineEmits(['changeTaskSelection']);
+
+	const task = reactive({
+		location: props.location,
+		available: props.available,
+		importance: props.importance,
+		status: props.status,
+		comment: props.comment
+	})
+
+	const canEditTask = ref(false);
+	const fieldName = ref(null);
+	const canSelectTask = ref(false);
 
 	const editTask = async () =>
 	{
@@ -57,17 +75,6 @@
 		}
 		else toastsStore.useToast(data.message, 'error');
 	}
-
-	const task = reactive({
-		location: props.location,
-		available: props.available,
-		importance: props.importance,
-		status: props.status,
-		comment: props. comment
-	})
-
-	const canEditTask = ref(false);
-	const fieldName = ref(null);
 
 	let originalTask = {};
 	const toggleCanEditTask = (type) =>
@@ -95,16 +102,33 @@
 		if (field === 'importance') return 'range';
 		else if (field === 'status') return 'select';
 		else return 'string';
-
 	})
+
+	const showSelectCheckbox = () => canSelectTask.value = true;
+	const hideSelectCheckbox = () => canSelectTask.value = false;
 </script>
 
 <template>
-	<tr class="project-table__row">
+	<tr
+		:class="['project-table__row', { 'project-table__row--selected' : props.isSelected }]"
+		@mouseenter="showSelectCheckbox"
+		@mouseleave="hideSelectCheckbox"
+	>
 		<td
+			v-if="!canSelectTask"
 			class="project-table__first-column"
 		>
 			{{ props.numeration }}.
+		</td>
+		<td
+			v-if="canSelectTask"
+			class="project-table__first-column"
+		>
+			<input
+				type="checkbox"
+				:checked="props.isSelected"
+				@change="emit('changeTaskSelection', props.taskId)"
+			/>
 		</td>
 
 		<DynamicTaskField
@@ -133,6 +157,8 @@
 		text-align: center;
 
 		@include tr(0.2, background-color);
+
+		&--selected { background-color: rgba($black-color, $alpha: 0.1); }
 
 		&:hover { background-color: rgba($gray-color, $alpha: 0.1); }
 
