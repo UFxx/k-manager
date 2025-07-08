@@ -1,12 +1,12 @@
 <script setup>
-	import { inject } from 'vue';
-
-	import tasksApi from '~/src/api/tasks';
-	import { useToastsStore } from '~/src/stores/toastsStore';
-	const toastsStore = useToastsStore()
+	import { useTasksStore } from '../../stores/tasksStore';
 
 	const props = defineProps({
 		taskId: {
+			type: Number,
+			required: true
+		},
+		projectIdx: {
 			type: Number,
 			required: true
 		},
@@ -16,21 +16,11 @@
 		}
 	})
 
-	const tasks = inject('tasks');
-
-	const deleteTask = async () =>
-	{
-		const data = await tasksApi.deleteTask(props.taskId);
-
-		if (data.success)
-		{
-			tasks.value = tasks.value.filter(task => task.id !== props.taskId);
-			toastsStore.useToast(data.message, 'success');
-		}
-		else toastsStore.useToast(data.message, 'error');
-	}
-
 	const emit = defineEmits(['toggleCanEditTask']);
+
+	const tasksStore = useTasksStore();
+
+	const deleteTask = () => tasksStore.deleteTask(props.taskId, props.projectIdx);
 </script>
 
 <template>

@@ -1,12 +1,10 @@
 <script setup>
+	import { reactive, ref, computed } from 'vue';
+
 	import DynamicTaskField from '@/TaskFields/DynamicTaskField.vue';
 	import EditTaskField from '@/TaskFields/EditTaskField.vue';
-	import { reactive, ref, computed, inject } from 'vue';
-	import tasksApi from '~/src/api/tasks';
-	import { useToastsStore } from '~/src/stores/toastsStore';
-	const toastsStore = useToastsStore()
 
-	const tasks = inject('tasks');
+	import { useTasksStore } from '../stores/tasksStore';
 
 	const props = defineProps({
 		taskId:{
@@ -42,6 +40,10 @@
 			type: Number,
 			required: true
 		},
+		projectIdx: {
+			type: Number,
+			required: true
+		},
 		isSelected: {
 			type: Boolean,
 			required: false
@@ -58,31 +60,20 @@
 		comment: props.comment
 	})
 
+	const tasksStore = useTasksStore();
 	const canEditTask = ref(false);
 	const fieldName = ref(null);
 	const canSelectTask = ref(false);
-
-	const editTask = async () =>
-	{
-		const payload = { ...task, taskId: props.taskId }
-		const data = await tasksApi.editTask(payload);
-
-		if (data.success)
-		{
-			const affectedTaskIdx = tasks.value.findIndex(task => task.id === props.taskId);
-			tasks.value[affectedTaskIdx] = data.task;
-			toastsStore.useToast(data.message, 'info');
-		}
-		else toastsStore.useToast(data.message, 'error');
-	}
-
 	let originalTask = {};
+
+	const editTask = async () => tasksStore.editTask(task, props.taskId, props.projectIdx);
+
 	const toggleCanEditTask = (type) =>
 	{
 		if (type === 'edit')
 		{
 			canEditTask.value = false;
-			editTask(fieldName.value, task[fieldName.value]);
+			editTask();
 		}
 		else if (type === 'cancel')
 		{
@@ -97,6 +88,7 @@
 	};
 
 	const changeFieldName = (newFieldName) => fieldName.value = newFieldName;
+
 	const getFieldType = computed(() => (field) =>
 	{
 		if (field === 'importance') return 'range';
@@ -146,6 +138,7 @@
 		<edit-task-field
 			:taskId
 			:canEditTask
+			:projectIdx="props.projectIdx"
 			@toggle-can-edit-task="toggleCanEditTask"
 		/>
 	</tr>
@@ -158,9 +151,9 @@
 
 		@include tr(0.2, background-color);
 
-		&--selected { background-color: rgba($black-color, $alpha: 0.1); }
-
 		&:hover { background-color: rgba($gray-color, $alpha: 0.1); }
+
+		&--selected { background-color: rgba($black-color, $alpha: 0.1); }
 
 		td
 		{

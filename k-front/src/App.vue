@@ -63,10 +63,11 @@
 				class="project-container"
 			>
 				<Project
-					v-for="project in projects"
+					v-for="(project, i) in projects"
 					:key="project.project_id"
 					:projectName="project.project_name"
 					:projectId="project.project_id"
+					:projectIdx="i"
 					@delete-project="deleteProject"
 					@rename-project="renameProject"
 				/>
