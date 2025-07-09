@@ -5,9 +5,11 @@
 
 	import { useToastsStore } from '~/src/stores/toastsStore';
 	import { useLoaderStore } from '~/src/stores/loaderStore';
+	import { useTasksStore } from '../stores/tasksStore';
 
 	const toastsStore = useToastsStore();
 	const loaderStore = useLoaderStore();
+	const tasksStore = useTasksStore();
 	const projects = inject('projects');
 
 	const createNewProject = async () =>
@@ -28,6 +30,9 @@
 		<div class="header__add-project">
 			<button @click="createNewProject">
 				Добавить проект
+			</button>
+			<button @click="tasksStore.bulkDelete()">
+				Удалить выбранные
 			</button>
 		</div>
 		<div class="header__menu">

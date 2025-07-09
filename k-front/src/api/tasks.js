@@ -7,11 +7,15 @@ export default {
 	},
 	addTask: async (payload) =>
 	{
-		return (await apiClient.post(`/tasks`,{...payload})).data;
+		return (await apiClient.post(`/tasks`, {...payload})).data;
 	},
 	deleteTask: async (taskId) =>
 	{
 		return (await apiClient.delete(`/tasks/${taskId}`)).data;
+	},
+	bulkDelete: async (taskIds) =>
+	{
+		return (await apiClient.post(`/tasks/bulkDelete`, taskIds)).data;
 	},
 	editTask: async (payload) =>
 	{

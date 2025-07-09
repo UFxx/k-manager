@@ -50,8 +50,6 @@
 		}
 	})
 
-	const emit = defineEmits(['changeTaskSelection']);
-
 	const task = reactive({
 		location: props.location,
 		available: props.available,
@@ -64,6 +62,7 @@
 	const canEditTask = ref(false);
 	const fieldName = ref(null);
 	const canSelectTask = ref(false);
+	// for cancel editing task
 	let originalTask = {};
 
 	const editTask = async () => tasksStore.editTask(task, props.taskId, props.projectIdx);
@@ -115,11 +114,11 @@
 		<td
 			v-if="canSelectTask"
 			class="project-table__first-column"
+			@click="tasksStore.changeTaskSelection(props.taskId, props.projectIdx)"
 		>
 			<input
 				type="checkbox"
 				:checked="props.isSelected"
-				@change="emit('changeTaskSelection', props.taskId)"
 			/>
 		</td>
 
@@ -153,7 +152,12 @@
 
 		&:hover { background-color: rgba($gray-color, $alpha: 0.1); }
 
-		&--selected { background-color: rgba($black-color, $alpha: 0.1); }
+		&--selected
+		{
+			background-color: rgba($blue-color, 0.15);
+
+			&:hover { background-color: rgba($blue-color, 0.25) }
+		}
 
 		td
 		{

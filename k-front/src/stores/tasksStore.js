@@ -7,6 +7,7 @@ export const useTasksStore = defineStore('tasks', () =>
 {
 	const toastsStore = useToastsStore();
 	const tasks = ref([]);
+	const selectedTasks = ref([]);
 
 	const fetchTasks = async (projectId) =>
 		{
@@ -61,15 +62,31 @@ export const useTasksStore = defineStore('tasks', () =>
 		else toastsStore.useToast(data.message, 'error');
 	}
 
-	// projectIdx нужно прокинуть из project.vue
-	// в компонент, который отвечает за их выделение
-	// пока что я только вынес функцию
-	const changeTaskSelection = (taskId, projectIdx) =>
+
+	const bulkDelete = async () =>
 	{
-		const getTaskIdx = tasks.value.findIndex(task => task.id === taskId);
-		const task = tasks.value[projectIdx][getTaskIdx];
-		task.isSelected = !task.isSelected;
+		const payload = {taskIds: selectedTasks.value.map(t => t.id)}
+		const data = await tasksApi.bulkDelete(payload);
+
+		if (data.success)
+		{
+			selectedTasks.value = [];
+			toastsStore.useToast(data.message, 'success');
+		}
+		else toastsStore.useToast(data.message, 'error');
 	}
 
-	return { tasks, fetchTasks, addTask, changeTaskSelection, editTask, deleteTask };
+	const changeTaskSelection = (taskId, projectIdx) =>
+	{
+		const getTaskIdx = tasks.value[projectIdx].findIndex(task => task.id === taskId);
+		const task = tasks.value[projectIdx][getTaskIdx];
+		task.isSelected = !task.isSelected;
+
+		if (task.isSelected)
+			selectedTasks.value.push(task);
+		else
+			selectedTasks.value = selectedTasks.value.filter(task => task.id !== taskId)
+	}
+
+	return { tasks, selectedTasks, fetchTasks, addTask, changeTaskSelection, editTask, deleteTask, bulkDelete };
 })
