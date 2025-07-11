@@ -25,7 +25,6 @@
 	const tasksStore = useTasksStore();
 
 	// vars
-	const tasks = tasksStore.tasks;
 	const newProjectName = ref(props.projectName);
 	const canEditProject = ref(false);
 	let originalProjectName;
@@ -127,7 +126,7 @@
 					class="project-container"
 				>
 					<Task
-						v-for="(task, i) in tasks[projectIdx]"
+						v-for="(task, i) in tasksStore.tasks[projectIdx]"
 						:key="task.id"
 						:numeration="i + 1"
 						:location="task.location"

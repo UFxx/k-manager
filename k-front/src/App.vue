@@ -7,7 +7,9 @@
 	import projectsApi from '~/src/api/projects'
 
 	import { useToastsStore } from '~/src/stores/toastsStore';
+	import { useTasksStore } from './stores/tasksStore';
 	const toastsStore = useToastsStore();
+	const tasksStore = useTasksStore();
 
 	const projects = ref([]);
 
@@ -57,6 +59,27 @@
 	<Header />
 	<div class="container">
 		<main>
+			<div class="projects-options__container">
+				<div class="projects-options__buttons">
+					<button>
+						<Icon
+							path="filter.svg"
+							size="small"
+						/>
+					</button>
+					<button @click="tasksStore.bulkDelete()">
+						<Icon
+							path="trash.svg"
+							size="small"
+						/>
+					</button>
+				</div>
+				<div class="projects-options__info">
+					<p v-if="tasksStore.selectedTasks.length">
+						Выбрано {{ tasksStore.selectedTasks.length }}
+					</p>
+				</div>
+			</div>
 			<TransitionGroup
 				name="project-fade"
 				tag="div"
@@ -78,6 +101,21 @@
 
 <style lang="scss">
 	.projects-container { overflow: hidden; }
+
+	.projects-options__container
+	{
+		position: absolute;
+		top: -20px;
+		display: flex;
+		flex-direction: column;
+		column-gap: 5px;
+		z-index: 2;
+	}
+
+	.projects-options__buttons
+	{
+		button { @extend %header-button; }
+	}
 
 	.project-fade-enter-active,
 	.project-fade-leave-active {

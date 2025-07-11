@@ -82,7 +82,6 @@ class TaskController
 		return res.json({
 			success: true,
 			message: 'Задачи удалены',
-			// tasks: await
 		})
 	}
 

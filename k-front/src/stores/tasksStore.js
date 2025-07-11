@@ -70,7 +70,11 @@ export const useTasksStore = defineStore('tasks', () =>
 
 		if (data.success)
 		{
+			const selectedTaskIds = selectedTasks.value.map(task => task.id);
+
+			tasks.value = tasks.value.map(project => project.filter(task => !selectedTaskIds.includes(task.id)));
 			selectedTasks.value = [];
+
 			toastsStore.useToast(data.message, 'success');
 		}
 		else toastsStore.useToast(data.message, 'error');
