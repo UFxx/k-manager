@@ -68,6 +68,23 @@ class TaskController
 		})
 	}
 
+	async bulkDelete(req, res)
+	{
+		const { taskIds } = req.body;
+
+		if (!taskIds) return res.status(400).json({
+			success: false,
+			message: 'taskIds is required'
+		})
+
+		await Task.bulkDelete(db, taskIds);
+
+		return res.json({
+			success: true,
+			message: 'Задачи удалены',
+		})
+	}
+
 	async editTask(req, res)
 	{
 		const { location, available, importance, status, comment, taskId } = req.body;

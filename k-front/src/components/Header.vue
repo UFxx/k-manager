@@ -58,10 +58,15 @@
 <style lang='scss' scoped>
 	.header
 	{
+		position: sticky;
+		top: 0;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		padding: 20px 40px;
+		z-index: 2;
+		background-color: rgba($black-color, 0.1);
+		backdrop-filter: blur(8px);
 
 		ul
 		{
@@ -78,10 +83,7 @@
 
 					@extend %header-button;
 
-					&.active
-					{
-						box-shadow: 0 4px 4px 0 rgba($black-color, 0.25);
-					}
+					&.active { box-shadow: 0 4px 4px 0 rgba($black-color, 0.25); }
 				}
 			}
 		}
@@ -89,21 +91,13 @@
 
 	.header__add-project
 	{
-		button
-		{
-			@extend %header-button;
-		}
+		button { @extend %header-button; }
 	}
 
-	@keyframes load {
-		from
-		{
-			transform: rotate(0);
-		}
-		to
-		{
-			transform: rotate(360deg);
-		}
+	@keyframes load
+	{
+		from { transform: rotate(0); }
+		to { transform: rotate(360deg); }
 	}
 
 	.header__refresh-indicator

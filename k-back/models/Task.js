@@ -47,4 +47,11 @@ export class Task
 											WHERE id = ?;`;
 		await db.query(sqlQuery, [location, available, importance, status, comment, task_id]);
 	}
+
+	static async bulkDelete(db, task_ids)
+	{
+		const sqlQuery = `DELETE FROM Tasks
+										WHERE id IN (?);`;
+		await db.query(sqlQuery, [task_ids])
+	}
 }

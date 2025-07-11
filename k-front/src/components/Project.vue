@@ -1,10 +1,8 @@
 <script setup>
-	import { ref, onMounted, provide } from 'vue';
+	import { ref, onMounted } from 'vue';
 	import Task from '@/Task.vue';
 
-	import tasksApi from '~/src/api/tasks'
-	import { useToastsStore } from '~/src/stores/toastsStore';
-	const toastsStore = useToastsStore()
+	import { useTasksStore } from '../stores/tasksStore';
 
 	const props = defineProps({
 		projectName: {
@@ -14,39 +12,26 @@
 		projectId: {
 			type: Number,
 			required: true
+		},
+		projectIdx: {
+			type: Number,
+			required: true
 		}
 	})
 
 	const emit = defineEmits(['deleteProject', 'renameProject']);
 
-	const tasks = ref([]);
+	// stores
+	const tasksStore = useTasksStore();
+
+	// vars
 	const newProjectName = ref(props.projectName);
 	const canEditProject = ref(false);
-
-	provide('tasks', tasks);
-
-	const fetchTasks = async () =>
-	{
-		const data = await tasksApi.fetchTasks(props.projectId);
-
-		if (data.success) tasks.value = data.tasks;
-		else toastsStore.useToast(data.message, 'error');
-	}
-
-	const addTask = async () =>
-	{
-		const payload = { projectId: props.projectId }
-		const data = await tasksApi.addTask(payload);
-
-		if (data.success)
-		{
-			tasks.value.push(data.task);
-			toastsStore.useToast(data.message, 'success');
-		}
-		else toastsStore.useToast(data.message, 'error');
-	}
-
 	let originalProjectName;
+
+	// funcs
+	const addTask = () => tasksStore.addTask(props.projectId, props.projectIdx);
+
 	const renameProject = (type) =>
 	{
 		if (type === 'rename')
@@ -66,7 +51,7 @@
 		}
 	}
 
-	onMounted(() => fetchTasks());
+	onMounted(() => tasksStore.fetchTasks(props.projectId));
 </script>
 
 <template>
@@ -141,7 +126,7 @@
 					class="project-container"
 				>
 					<Task
-						v-for="(task, i) in tasks"
+						v-for="(task, i) in tasksStore.tasks[projectIdx]"
 						:key="task.id"
 						:numeration="i + 1"
 						:location="task.location"
@@ -150,9 +135,12 @@
 						:status="task.status"
 						:comment="task.comment"
 						:projectId="task.project_id"
+						:projectIdx
 						:taskId="task.id"
+						:isSelected="task.isSelected"
 						@delete-task="deleteTask"
 						@edit-task="editTask"
+						@change-task-selection="changeTaskSelection"
 					/>
 				</TransitionGroup>
 				<tr
