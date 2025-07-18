@@ -110,7 +110,11 @@ export const useTasksStore = defineStore('tasks', () =>
 		else return;
 	}
 
-	const clearFilters = () => filteredTasks.value = [];
+	const clearFilters = () =>
+	{
+		filteredTasks.value = []
+		currentFilter.value = null;
+	};
 
 	return {
 		tasks,
