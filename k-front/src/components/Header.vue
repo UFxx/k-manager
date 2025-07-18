@@ -45,9 +45,8 @@
 				</ul>
 			</nav>
 		</div>
-		<div class="header__refresh-indicator">
+		<div :class="['header__refresh-indicator', loaderStore.isLoading ? null : 'hidden']">
 			<Icon
-				v-show="loaderStore.isLoading"
 				path="refresh-indicator.svg"
 				size="small"
 			/>
@@ -104,5 +103,10 @@
 	{
 		opacity: 0.4;
 		animation: load 1.5s infinite linear;
+
+		&.hidden
+		{
+			img { opacity: 0; }
+		}
 	}
 </style>

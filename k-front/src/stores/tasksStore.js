@@ -8,6 +8,7 @@ export const useTasksStore = defineStore('tasks', () =>
 	const toastsStore = useToastsStore();
 	const tasks = ref([]);
 	const selectedTasks = ref([]);
+	const filteredTasks = ref([]);
 
 	const fetchTasks = async (projectId) =>
 		{
@@ -65,7 +66,9 @@ export const useTasksStore = defineStore('tasks', () =>
 
 	const bulkDelete = async () =>
 	{
-		const payload = {taskIds: selectedTasks.value.map(t => t.id)}
+		if (selectedTasks.value.length < 1) return toastsStore.useToast('Задач не выбрано', 'error');
+
+		const payload = { taskIds: selectedTasks.value.map(t => t.id) }
 		const data = await tasksApi.bulkDelete(payload);
 
 		if (data.success)
@@ -92,5 +95,30 @@ export const useTasksStore = defineStore('tasks', () =>
 			selectedTasks.value = selectedTasks.value.filter(task => task.id !== taskId)
 	}
 
-	return { tasks, selectedTasks, fetchTasks, addTask, changeTaskSelection, editTask, deleteTask, bulkDelete };
+	const filterTasks = (filter) =>
+	{
+		const { filterName, filterCode } = filter;
+
+		if (filterName === 'По важности')
+			filteredTasks.value = tasks.value.map(project => project.filter(task => task.importance === filterCode));
+		else if (filterName === 'По статусу')
+			filteredTasks.value = tasks.value.map(project => project.filter(task => task.status === filterCode));
+		else return;
+	}
+
+	const clearFilters = () => filteredTasks.value = [];
+
+	return {
+		tasks,
+		selectedTasks,
+		filteredTasks,
+		fetchTasks,
+		addTask,
+		editTask,
+		deleteTask,
+		bulkDelete,
+		changeTaskSelection,
+		filterTasks,
+		clearFilters
+	};
 })
