@@ -75,7 +75,7 @@
 
 	const filtersOpened = ref(false);
 	const filtersDropdownOpened = ref(false);
-	const currentFilter = reactive({ filterName: null, filterCode: null });
+	const currentFilter = reactive({ filterName: null, filterCode: null, filterItemName: null });
 
 	const openFiltersDropdown = (filterIdx) =>
 	{
@@ -95,6 +95,7 @@
 	const selectDropdownItem = (item) =>
 	{
 		currentFilter.filterCode = item.filterItemCode;
+		currentFilter.filterItemName = item.filterItemName;
 		filters.forEach(filter => filter.filterItems.forEach(filterItem => filterItem.isSelected = false));
 		item.isSelected = true;
 		tasksStore.filterTasks(currentFilter);
