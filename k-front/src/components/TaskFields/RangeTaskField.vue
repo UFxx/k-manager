@@ -55,7 +55,7 @@
 				position: absolute;
 				border-radius: 30px;
 				top: 50%;
-				height: 50%;
+				height: 30px;
 				transform: translateY(-51%);
 				left: 0;
 

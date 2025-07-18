@@ -190,7 +190,7 @@
 		td
 		{
 			padding: 5px;
-			height: 65px;
+			height: 100px;
 
 			input, textarea { font-size: 14px; }
 			&:first-child { border-left: none; }
