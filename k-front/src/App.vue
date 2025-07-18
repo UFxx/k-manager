@@ -69,6 +69,9 @@
 					<p v-if="tasksStore.selectedTasks.length">
 						Выбрано {{ tasksStore.selectedTasks.length }}
 					</p>
+					<p v-if="tasksStore.currentFilter">
+						Фильтр: {{ tasksStore.currentFilter.filterName }} - {{ tasksStore.currentFilter.filterValue }}
+					</p>
 				</div>
 			</div>
 			<TransitionGroup
@@ -95,10 +98,10 @@
 
 	.projects-options__container
 	{
+		display: flex;
+		align-items: center;
 		position: absolute;
 		top: -20px;
-		display: flex;
-		flex-direction: column;
 		column-gap: 5px;
 		z-index: 1;
 	}
@@ -107,6 +110,8 @@
 	{
 		button { @extend %header-button; }
 	}
+
+	.projects-options__info { opacity: 0.5; }
 
 	.project-fade-enter-active,
 	.project-fade-leave-active {

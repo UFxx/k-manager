@@ -95,9 +95,13 @@ export const useTasksStore = defineStore('tasks', () =>
 			selectedTasks.value = selectedTasks.value.filter(task => task.id !== taskId)
 	}
 
+	const currentFilter = ref(null);
+
 	const filterTasks = (filter) =>
 	{
-		const { filterName, filterCode } = filter;
+		const { filterName, filterCode, filterItemName } = filter;
+
+		currentFilter.value = { filterName:filterName, filterValue: filterItemName };
 
 		if (filterName === 'По важности')
 			filteredTasks.value = tasks.value.map(project => project.filter(task => task.importance === filterCode));
@@ -106,7 +110,11 @@ export const useTasksStore = defineStore('tasks', () =>
 		else return;
 	}
 
-	const clearFilters = () => filteredTasks.value = [];
+	const clearFilters = () =>
+	{
+		filteredTasks.value = []
+		currentFilter.value = null;
+	};
 
 	return {
 		tasks,
@@ -119,6 +127,7 @@ export const useTasksStore = defineStore('tasks', () =>
 		bulkDelete,
 		changeTaskSelection,
 		filterTasks,
-		clearFilters
+		clearFilters,
+		currentFilter
 	};
 })
