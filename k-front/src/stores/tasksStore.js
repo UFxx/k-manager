@@ -99,6 +99,9 @@ export const useTasksStore = defineStore('tasks', () =>
 	{
 		const { filterName, filterCode } = filter;
 
+		console.log(filter);
+
+
 		if (filterName === 'По важности')
 			filteredTasks.value = tasks.value.map(project => project.filter(task => task.importance === filterCode));
 		else if (filterName === 'По статусу')
