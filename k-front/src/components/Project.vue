@@ -1,5 +1,5 @@
 <script setup>
-	import { ref, onMounted } from 'vue';
+	import { ref, computed, onMounted } from 'vue';
 	import Task from '@/Task.vue';
 
 	import { useTasksStore } from '../stores/tasksStore';
@@ -28,6 +28,11 @@
 	const newProjectName = ref(props.projectName);
 	const canEditProject = ref(false);
 	let originalProjectName;
+
+	const displayedTasks = computed(() => tasksStore.filteredTasks.length ? tasksStore.filteredTasks : tasksStore.tasks)
+
+	console.log(tasksStore.filteredTasks.length);
+
 
 	// funcs
 	const addTask = () => tasksStore.addTask(props.projectId, props.projectIdx);
@@ -126,7 +131,7 @@
 					class="project-container"
 				>
 					<Task
-						v-for="(task, i) in tasksStore.tasks[projectIdx]"
+						v-for="(task, i) in displayedTasks[projectIdx]"
 						:key="task.id"
 						:numeration="i + 1"
 						:location="task.location"

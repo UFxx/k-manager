@@ -3,6 +3,8 @@
 	import Project from '@/Project.vue';
 	import Toaster from '@/Toaster.vue';
 	import Header from '@/Header.vue';
+	import BulkDelete from '@/ProjectsOptions/BulkDelete.vue';
+	import Filter from '@/ProjectsOptions/Filter.vue';
 
 	import projectsApi from '~/src/api/projects'
 
@@ -17,7 +19,6 @@
 
 	const fetchProjects = async () =>
 	{
-
 		const data = await projectsApi.fetchProjects();
 
 		if (data.success) projects.value = data.projects;
@@ -61,18 +62,8 @@
 		<main>
 			<div class="projects-options__container">
 				<div class="projects-options__buttons">
-					<button>
-						<Icon
-							path="filter.svg"
-							size="small"
-						/>
-					</button>
-					<button @click="tasksStore.bulkDelete()">
-						<Icon
-							path="trash.svg"
-							size="small"
-						/>
-					</button>
+					<Filter />
+					<BulkDelete />
 				</div>
 				<div class="projects-options__info">
 					<p v-if="tasksStore.selectedTasks.length">
@@ -109,7 +100,7 @@
 		display: flex;
 		flex-direction: column;
 		column-gap: 5px;
-		z-index: 2;
+		z-index: 1;
 	}
 
 	.projects-options__buttons
