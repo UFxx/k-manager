@@ -69,7 +69,7 @@
 					placeholder="Название проекта"
 					:disabled="!canEditProject"
 				/>
-				<td class="project-table__edit">
+				<span class="project-table__edit">
 					<template v-if="canEditProject">
 						<button @click="renameProject('rename')">
 							<Icon
@@ -99,7 +99,7 @@
 							size="small"
 						/>
 					</button>
-				</td>
+				</span>
 			</caption>
 			<tbody>
 				<tr class="project-table__header">
@@ -168,6 +168,7 @@
 		margin-top: 50px;
 		border-collapse: collapse;
 		min-width: 1000px;
+		width: 1440px;
 		overflow-x: scroll;
 
 		@media (max-width: $tablet) { margin: 100px 15px 0 10px; }
@@ -252,7 +253,7 @@
 	.project-table .project-table__edit
 	{
 		position: absolute;
-		left: 100%;
+		left: calc(100% + 10px);
 		top: 0;
 		display: flex;
 		column-gap: 5px;
