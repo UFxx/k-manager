@@ -83,9 +83,10 @@
 </template>
 
 <style lang='scss' scoped>
+	td { position: relative; }
+
 	.container
 	{
-		position: relative;
 		padding: 5px;
 
 		button
@@ -112,7 +113,7 @@
 	.dropdown
 	{
 		position: absolute;
-		top: calc(100% + 8px);
+		top: 100%;
 		left: 50%;
 		transform: translateX(-50%);
 		z-index: 1;
