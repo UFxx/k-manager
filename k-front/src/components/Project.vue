@@ -223,11 +223,9 @@
 	.project-table__edit
 	{
 		position: absolute;
-		top: 23%;
 		left: 62%;
 		display: flex;
 		column-gap: 5px;
-		transform: translate(-50%, -50%);
 	}
 
 	.project-table__header
