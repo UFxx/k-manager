@@ -72,6 +72,10 @@
 		cursor: pointer;
 		z-index: 2;
 
-		&:disabled { cursor: default; }
+		&:disabled
+		{
+			cursor: default;
+			pointer-events: none;
+		}
 	}
 </style>
