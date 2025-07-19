@@ -82,7 +82,7 @@
 
 					@extend %header-button;
 
-					&.active { box-shadow: 0 4px 4px 0 rgba($black-color, 0.25); }
+					&.active { @extend %box-shadow; }
 				}
 			}
 		}

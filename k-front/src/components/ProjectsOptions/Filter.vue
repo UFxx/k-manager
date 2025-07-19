@@ -4,8 +4,6 @@
 	import { useTasksStore } from '../../stores/tasksStore';
 	const tasksStore = useTasksStore();
 
-	// status - 0 - 4
-	// importace - 1 - 5
 	const filters = reactive([
 		{
 			name: 'По важности',
@@ -121,7 +119,10 @@
 			size="small"
 		/>
 	</button>
-	<div :class="['filters-container', filtersDropdownOpened ? 'dropdown--opened' : null]">
+	<div
+		v-if="filtersOpened"
+		:class="['filters-container', filtersDropdownOpened ? 'dropdown--opened' : null]"
+	>
 		<ul
 			v-if="filtersOpened"
 			class="filters"
@@ -139,26 +140,28 @@
 						size="x-small"
 					/>
 				</button>
-				<ul
-					v-if="filter.isDropdownOpened"
-					class="filters__item-dropdown"
-				>
-					<li
-						v-for="(item, j) in filter.filterItems"
-						:key="j"
-						class="filters__item-dropdown-item"
-						@click="selectDropdownItem(item)"
+				<TransitionGroup name="fade-right">
+					<ul
+						v-if="filter.isDropdownOpened"
+						class="filters__item-dropdown"
 					>
-						<button>
-							{{ item.filterItemName }}
-							<Icon
-								v-if="item.isSelected"
-								path="check.svg"
-								size="x-small"
-							/>
-						</button>
-					</li>
-				</ul>
+						<li
+							v-for="(item, j) in filter.filterItems"
+							:key="j"
+							class="filters__item-dropdown-item"
+							@click="selectDropdownItem(item)"
+						>
+							<button>
+								{{ item.filterItemName }}
+								<Icon
+									v-if="item.isSelected"
+									path="check.svg"
+									size="x-small"
+								/>
+							</button>
+						</li>
+					</ul>
+				</TransitionGroup>
 			</li>
 			<button
 				class="filters__clear-filter"
@@ -170,7 +173,7 @@
 	</div>
 </template>
 
-<style lang='scss' scoped>
+<style lang='scss'>
 	.filters-container
 	{
 		position: absolute;
@@ -221,7 +224,7 @@
 		top: 0;
 		left: 100%;
 		backdrop-filter: blur(8px);
-		border-radius: 0 8px 8px 8px;
+		border-radius: 0 8px 8px;
 		border-left: 1px solid rgba($white-color, 0.3);
 		padding: 5px;
 		background-color: rgba($gray-color, 0.1);
@@ -242,5 +245,24 @@
 
 		&:hover { background-color: rgba($gray-color, 0.7); }
 	}
+
+	.fade-right-enter-active,
+	.fade-right-leave-active
+	{
+		max-height: 200px;
+		opacity: 1;
+
+		@include tr(0.3, opacity, transform);
+	}
+
+	.fade-right-enter-from,
+	.fade-right-leave-to
+	{
+		opacity: 0;
+		transform: translateX(-10px);
+		max-height: 0;
+	}
+
+	.fade-right-move { @include tr(0.5, transform); }
 
 </style>

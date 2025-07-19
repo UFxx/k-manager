@@ -3,15 +3,12 @@
 	import Project from '@/Project.vue';
 	import Toaster from '@/Toaster.vue';
 	import Header from '@/Header.vue';
-	import BulkDelete from '@/ProjectsOptions/BulkDelete.vue';
-	import Filter from '@/ProjectsOptions/Filter.vue';
+	import ProjectsOptions from '@/ProjectsOptions.vue';
 
 	import projectsApi from '~/src/api/projects'
 
 	import { useToastsStore } from '~/src/stores/toastsStore';
-	import { useTasksStore } from './stores/tasksStore';
 	const toastsStore = useToastsStore();
-	const tasksStore = useTasksStore();
 
 	const projects = ref([]);
 
@@ -60,22 +57,9 @@
 	<Header />
 	<div class="container">
 		<main>
-			<div class="projects-options__container">
-				<div class="projects-options__buttons">
-					<Filter />
-					<BulkDelete />
-				</div>
-				<div class="projects-options__info">
-					<p v-if="tasksStore.selectedTasks.length">
-						Выбрано {{ tasksStore.selectedTasks.length }}
-					</p>
-					<p v-if="tasksStore.currentFilter">
-						Фильтр: {{ tasksStore.currentFilter.filterName }} - {{ tasksStore.currentFilter.filterValue }}
-					</p>
-				</div>
-			</div>
+			<ProjectsOptions />
 			<TransitionGroup
-				name="project-fade"
+				name="fade"
 				tag="div"
 				class="project-container"
 			>
@@ -96,37 +80,22 @@
 <style lang="scss">
 	.projects-container { overflow: hidden; }
 
-	.projects-options__container
+	.fade-enter-active,
+	.fade-leave-active
 	{
-		display: flex;
-		align-items: center;
-		position: absolute;
-		top: -20px;
-		column-gap: 5px;
-		z-index: 1;
-	}
-
-	.projects-options__buttons
-	{
-		button { @extend %header-button; }
-	}
-
-	.projects-options__info { opacity: 0.5; }
-
-	.project-fade-enter-active,
-	.project-fade-leave-active {
 		max-height: 200px;
 		opacity: 1;
 
 		@include tr(0.3, opacity, transform);
 	}
 
-	.project-fade-enter-from,
-	.project-fade-leave-to {
+	.fade-enter-from,
+	.fade-leave-to
+	{
 		opacity: 0;
 		transform: translateY(-10px);
 		max-height: 0;
 	}
 
-	.project-fade-move { @include tr(0.5, transform); }
+	.fade-move { @include tr(0.5, transform); }
 </style>

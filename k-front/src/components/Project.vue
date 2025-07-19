@@ -29,10 +29,7 @@
 	const canEditProject = ref(false);
 	let originalProjectName;
 
-	const displayedTasks = computed(() => tasksStore.filteredTasks.length ? tasksStore.filteredTasks : tasksStore.tasks)
-
-	console.log(tasksStore.filteredTasks.length);
-
+	const displayedTasks = computed(() => tasksStore.filteredTasks.length ? tasksStore.filteredTasks : tasksStore.tasks);
 
 	// funcs
 	const addTask = () => tasksStore.addTask(props.projectId, props.projectIdx);
@@ -127,7 +124,7 @@
 					<th />
 				</tr>
 				<TransitionGroup
-					name="project-fade"
+					name="fade"
 					class="project-container"
 				>
 					<Task
@@ -190,7 +187,7 @@
 		td
 		{
 			padding: 5px;
-			height: 65px;
+			height: 100px;
 
 			input, textarea { font-size: 14px; }
 			&:first-child { border-left: none; }
@@ -226,7 +223,7 @@
 	.project-table__edit
 	{
 		position: absolute;
-		top: 15px;
+		top: 23%;
 		left: 62%;
 		display: flex;
 		column-gap: 5px;
