@@ -16,7 +16,10 @@
 			<BulkDelete />
 			<Search />
 		</div>
-		<div class="projects-options__info">
+		<div
+			v-if="tasksStore.selectedTasks.length || tasksStore.currentFilter"
+			class="projects-options__info"
+		>
 			<p v-if="tasksStore.selectedTasks.length">
 				Выбрано {{ tasksStore.selectedTasks.length }}
 			</p>
@@ -30,12 +33,19 @@
 <style lang='scss'>
 .projects-options__container
 	{
+		position: sticky;
+		top: 73px;
 		display: flex;
+		flex-direction: column;
 		align-items: center;
-		position: absolute;
-		top: -20px;
 		column-gap: 5px;
 		z-index: 1;
+		padding: 10px;
+		background-color: rgba($black-color, 0.1);
+		backdrop-filter: blur(8px);
+		width: max-content;
+		border-radius: 0 0 15px 15px;
+		@extend %box-shadow;
 	}
 
 	.projects-options__buttons
@@ -47,5 +57,10 @@
 		button { @extend %header-button; }
 	}
 
-	.projects-options__info { opacity: 0.5; }
+	.projects-options__info
+	{
+		opacity: 0.5;
+		align-self: flex-start;
+		margin-top: 10px;
+	}
 </style>

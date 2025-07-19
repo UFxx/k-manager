@@ -223,7 +223,7 @@
 	.project-table__edit
 	{
 		position: absolute;
-		top: 15px;
+		top: 23%;
 		left: 62%;
 		display: flex;
 		column-gap: 5px;
