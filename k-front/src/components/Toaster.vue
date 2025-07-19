@@ -60,6 +60,5 @@
 }
 
 .toast-fade-enter-active { animation: slide-up 0.3s ease; }
-
 .toast-fade-leave-active { animation: slide-down 0.3s ease; }
 </style>

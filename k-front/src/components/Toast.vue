@@ -58,8 +58,8 @@
 		align-items: center;
 		column-gap: 10px;
 		cursor: pointer;
-		box-shadow: 0 4px 4px 0 rgba($black-color, 0.25);
 
+		@extend %box-shadow;
 		@include tr(0.3, opacity, transform);
 
 		&:hover

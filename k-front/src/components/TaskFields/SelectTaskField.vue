@@ -102,7 +102,7 @@
 
 			&:hover
 			{
-				box-shadow: 0 4px 4px 0 rgba($black-color, 0.25);
+				@extend %box-shadow;
 				transform: translateY(-4px);
 			}
 		}
@@ -118,7 +118,7 @@
 		padding: 5px;
 		background-color: rgba($gray-color, 0.1);
 		border-radius: 8px;
-		box-shadow: 0 4px 4px 0 rgba($black-color, 0.25);
+		@extend %box-shadow;
 		backdrop-filter: blur(4px);
 
 		ul {
