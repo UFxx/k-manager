@@ -102,8 +102,9 @@
 
 			&:hover
 			{
-				@extend %box-shadow;
 				transform: translateY(-4px);
+
+				@extend %box-shadow;
 			}
 		}
 	}
@@ -118,8 +119,9 @@
 		padding: 5px;
 		background-color: rgba($gray-color, 0.1);
 		border-radius: 8px;
-		@extend %box-shadow;
 		backdrop-filter: blur(4px);
+
+		@extend %box-shadow;
 
 		ul {
 			width: 100%;

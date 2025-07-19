@@ -58,37 +58,6 @@
 
 <template>
 	<div class="container">
-		<div class="project-table__edit">
-			<template v-if="canEditProject">
-				<button @click="renameProject('rename')">
-					<Icon
-						path="check.svg"
-						size="small"
-					/>
-				</button>
-				<button @click="renameProject('cancel')">
-					<Icon
-						path="times.svg"
-						size="small"
-					/>
-				</button>
-				<button @click="emit('deleteProject', props.projectId)">
-					<Icon
-						path="trash.svg"
-						size="small"
-					/>
-				</button>
-			</template>
-			<button
-				v-else
-				@click="renameProject()"
-			>
-				<Icon
-					path="edit.svg"
-					size="small"
-				/>
-			</button>
-		</div>
 		<table
 			class="project-table"
 			cellspacing="0"
@@ -100,6 +69,37 @@
 					placeholder="Название проекта"
 					:disabled="!canEditProject"
 				/>
+				<td class="project-table__edit">
+					<template v-if="canEditProject">
+						<button @click="renameProject('rename')">
+							<Icon
+								path="check.svg"
+								size="small"
+							/>
+						</button>
+						<button @click="renameProject('cancel')">
+							<Icon
+								path="times.svg"
+								size="small"
+							/>
+						</button>
+						<button @click="emit('deleteProject', props.projectId)">
+							<Icon
+								path="trash.svg"
+								size="small"
+							/>
+						</button>
+					</template>
+					<button
+						v-else
+						@click="renameProject()"
+					>
+						<Icon
+							path="edit.svg"
+							size="small"
+						/>
+					</button>
+				</td>
 			</caption>
 			<tbody>
 				<tr class="project-table__header">
@@ -162,13 +162,15 @@
 </template>
 
 <style lang='scss'>
-	.container { position: relative; }
-
 	.project-table
 	{
+		position: relative;
 		margin-top: 50px;
-		width: 100%;
 		border-collapse: collapse;
+		min-width: 1000px;
+		overflow-x: scroll;
+
+		@media (max-width: $tablet) { margin: 100px 15px 0 10px; }
 
 		th
 		{
@@ -178,6 +180,8 @@
 			font-size: 18px;
 
 			&:last-child { border-right: none; }
+
+			@media (max-width: $tablet) { font-size: 16px; }
 		}
 
 		td,
@@ -189,7 +193,16 @@
 			padding: 5px;
 			height: 100px;
 
-			input, textarea { font-size: 14px; }
+			@media (max-width: $tablet) { height: 70px; }
+
+			input, textarea
+			{
+				font-size: 14px;
+				padding: 0;
+
+				@media (max-width: $tablet) { font-size: 12px; }
+			}
+
 			&:first-child { border-left: none; }
 
 			&:last-child
@@ -211,25 +224,45 @@
 
 	.project-table caption
 	{
+		position: sticky;
+		left: 10px;
 		padding-bottom: 20px;
+		width: max-content;
+		margin: 0 auto;
+
+		@media (max-width: $tablet) {
+			margin: 0;
+		}
 
 		input
 		{
 			font-size: 24px;
 			text-align: center;
+			max-width: 250px;
+			border-bottom: 1px solid rgba($gray-color, 0.3);
+			padding-bottom: 5px;
+			opacity: 0.5;
+
+			@include tr(0.3, opacity);
+
+			&:focus { opacity: 1; }
 		}
 	}
 
-	.project-table__edit
+	.project-table .project-table__edit
 	{
 		position: absolute;
-		left: 62%;
+		left: 100%;
+		top: 0;
 		display: flex;
 		column-gap: 5px;
+		height: auto;
 	}
 
 	.project-table__header
 	{
+		th { padding: 0 10px; }
+
 		.project-table__numeration-column
 		{
 			width: 30px;

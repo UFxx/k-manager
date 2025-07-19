@@ -23,6 +23,7 @@ export default {
 		"selector-class-pattern": null,
 		"custom-property-pattern": "^[a-z]+([A-Z][a-z]+)*$",
 		"color-function-alias-notation": null,
-		"no-descending-specificity": null
+		"no-descending-specificity": null,
+		"media-feature-range-notation": null
 	}
 }

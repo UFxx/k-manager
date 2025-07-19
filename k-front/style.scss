@@ -10,7 +10,6 @@
 body
 {
 	position: relative;
-	overflow: auto;
 	background: radial-gradient(at center, #5B5B5B, #434343);
 	background-attachment: fixed;
 }
@@ -19,6 +18,8 @@ body
 {
 	max-width: 1440px;
 	margin: 0 auto;
+
+	@media (max-width: $tablet) { overflow-x: scroll; }
 }
 
 button

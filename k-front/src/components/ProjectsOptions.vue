@@ -39,13 +39,20 @@
 		flex-direction: column;
 		align-items: center;
 		column-gap: 5px;
-		z-index: 1;
 		padding: 10px;
 		background-color: rgba($black-color, 0.1);
 		backdrop-filter: blur(8px);
 		width: max-content;
 		border-radius: 0 0 15px 15px;
+		z-index: 3;
+
 		@extend %box-shadow;
+
+		@media (max-width: $tablet)
+		{
+			position: fixed;
+			top: 73px;
+		}
 	}
 
 	.projects-options__buttons
@@ -55,6 +62,14 @@
 		column-gap: 5px;
 
 		button { @extend %header-button; }
+
+		input
+		{
+			@media (max-width: $mobile) {
+				width: 210px;
+				font-size: 12px;
+			}
+		}
 	}
 
 	.projects-options__info

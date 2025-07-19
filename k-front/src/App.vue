@@ -78,8 +78,6 @@
 </template>
 
 <style lang="scss">
-	.projects-container { overflow: hidden; }
-
 	.fade-enter-active,
 	.fade-leave-active
 	{

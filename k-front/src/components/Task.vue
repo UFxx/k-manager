@@ -109,17 +109,21 @@
 			v-if="!canSelectTask"
 			class="project-table__first-column"
 		>
-			{{ props.numeration }}.
+			<div>
+				{{ props.numeration }}.
+			</div>
 		</td>
 		<td
 			v-if="canSelectTask"
 			class="project-table__first-column"
 			@click="tasksStore.changeTaskSelection(props.taskId, props.projectIdx)"
 		>
-			<input
-				type="checkbox"
-				:checked="props.isSelected"
-			/>
+			<div>
+				<input
+					type="checkbox"
+					:checked="props.isSelected"
+				/>
+			</div>
 		</td>
 
 		<DynamicTaskField
@@ -167,5 +171,28 @@
 
 			&:hover { background-color: rgba($gray-color, $alpha: 0.2); }
 		}
+	}
+
+	.project-table .project-table__first-column
+	{
+		@media (max-width: $tablet) {
+			position: sticky;
+			left: 0;
+			padding: 0;
+			z-index: 2;
+
+			div
+			{
+				padding: 5px;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border-right: 1px solid white;
+				background-color: rgba($gray-color, $alpha: 0.2);
+				backdrop-filter: blur(8px);
+			}
+		}
+
 	}
 </style>

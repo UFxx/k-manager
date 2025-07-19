@@ -63,9 +63,11 @@
 		justify-content: space-between;
 		align-items: center;
 		padding: 20px 40px;
-		z-index: 2;
 		background-color: rgba($black-color, 0.1);
 		backdrop-filter: blur(8px);
+		z-index: 3;
+
+		@media (max-width: $tablet) { padding: 20px 10px; }
 
 		ul
 		{
@@ -83,6 +85,8 @@
 					@extend %header-button;
 
 					&.active { @extend %box-shadow; }
+
+					@media (max-width: $mobile) { font-size: 12px; }
 				}
 			}
 		}
