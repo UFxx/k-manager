@@ -4,6 +4,7 @@
 	import Toaster from '@/Toaster.vue';
 	import Header from '@/Header.vue';
 	import ProjectsOptions from '@/ProjectsOptions.vue';
+	import Popup from '@/Popup.vue'
 
 	import projectsApi from '~/src/api/projects'
 
@@ -75,11 +76,10 @@
 			</TransitionGroup>
 		</main>
 	</div>
+	<Popup />
 </template>
 
 <style lang="scss">
-	.projects-container { overflow: hidden; }
-
 	.fade-enter-active,
 	.fade-leave-active
 	{
