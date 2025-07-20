@@ -1,5 +1,5 @@
 <script setup>
-	import { useTasksStore } from '../../stores/tasksStore';
+	import { useTasksStore } from '~/src/stores/tasksStore';
 
 	const props = defineProps({
 		taskId: {

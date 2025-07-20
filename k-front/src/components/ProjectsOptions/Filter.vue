@@ -1,7 +1,7 @@
 <script setup>
 	import { ref, reactive } from 'vue';
 
-	import { useTasksStore } from '../../stores/tasksStore';
+	import { useTasksStore } from '~/src/stores/tasksStore';
 	const tasksStore = useTasksStore();
 
 	const filters = reactive([

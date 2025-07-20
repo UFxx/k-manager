@@ -26,7 +26,7 @@
 		flex-direction: column;
 		align-items: flex-end;
 		row-gap: 10px;
-		top: 10px;
+		top: 80px;
 		right: 30px;
 		z-index: 3;
 	}

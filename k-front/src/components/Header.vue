@@ -34,13 +34,14 @@
 			<nav>
 				<ul>
 					<li>
-						<a
-							href=""
-							class="active"
-						>Текущие</a>
+						<RouterLink to="/">
+							Текущие
+						</RouterLink>
 					</li>
 					<li>
-						<a href="">Сделанные</a>
+						<RouterLink to="/completed">
+							Сделанные
+						</RouterLink>
 					</li>
 				</ul>
 			</nav>
@@ -84,7 +85,7 @@
 
 					@extend %header-button;
 
-					&.active { @extend %box-shadow; }
+					&.router-link-active { @extend %box-shadow; }
 
 					@media (max-width: $mobile) { font-size: 12px; }
 				}

@@ -9,6 +9,14 @@ export class Task
 		return rows;
 	}
 
+	static async getCompletedTasks(db)
+	{
+		const sqlQuery = `SELECT * FROM Tasks
+											WHERE is_completed = TRUE;`
+		const [rows] = await db.query(sqlQuery);
+		return rows;
+	}
+
 	static async getTaskById(db, task_id)
 	{
 		const sqlQuery = `SELECT * FROM Tasks
@@ -36,16 +44,17 @@ export class Task
 		await db.query(sqlQuery, [task_id]);
 	}
 
-	static async editTask(db, location, available, importance, status, comment, task_id)
+	static async editTask(db, location, available, importance, status, comment, is_completed, task_id)
 	{
 		const sqlQuery = `UPDATE Tasks
 											SET location = ?,
 											available = ?,
 											importance = ?,
 											status = ?,
-											comment = ?
+											comment = ?,
+											is_completed = ?
 											WHERE id = ?;`;
-		await db.query(sqlQuery, [location, available, importance, status, comment, task_id]);
+		await db.query(sqlQuery, [location, available, importance, status, comment, is_completed, task_id]);
 	}
 
 	static async bulkDelete(db, task_ids)
