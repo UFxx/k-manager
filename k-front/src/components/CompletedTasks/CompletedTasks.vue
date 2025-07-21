@@ -1,9 +1,12 @@
 <script setup>
-	import { ref } from 'vue';
+	import { onMounted } from 'vue';
+
+	import { useTasksStore } from '~/src/stores/tasksStore';
+	const tasksStore = useTasksStore();
+
+	onMounted(() => tasksStore.fetchCompletedTasks());
 </script>
 
 <template>
-	<div class="container">
-		<p>a</p>
-	</div>
+	<div class="container" />
 </template>

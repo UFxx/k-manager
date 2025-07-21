@@ -82,10 +82,17 @@
 				a
 				{
 					text-decoration: none;
+					color: rgba($white-color, 0.5);
 
 					@extend %header-button;
+					@include tr(0.3, color);
 
-					&.router-link-active { @extend %box-shadow; }
+					&.router-link-active
+					{
+						color: $white-color;
+
+						@extend %box-shadow;
+					}
 
 					@media (max-width: $mobile) { font-size: 12px; }
 				}
