@@ -18,6 +18,14 @@ class TaskController
 		})
 	}
 
+	async getCompletedTasks(_, res)
+	{
+		return res.json({
+			success: true,
+			tasks: await Task.getCompletedTasks(db)
+		})
+	}
+
 	async getTaskById(req, res)
 	{
 		const { taskId } = req.params;
@@ -89,13 +97,15 @@ class TaskController
 	{
 		const { location, available, importance, status, comment, taskId } = req.body;
 
+		const isCompleted = status === 3;
+
 		if (location === undefined || available === undefined || !importance || status === undefined || comment === undefined || !taskId)
 			return res.status(400).json({
 				success: false,
 				message: "location, available, importance, status, comment, taskId is required"
 			})
 
-		await Task.editTask(db, location, available, importance, status, comment, taskId);
+		await Task.editTask(db, location, available, importance, status, comment, isCompleted, taskId);
 
 		return res.json({
 			success: true,

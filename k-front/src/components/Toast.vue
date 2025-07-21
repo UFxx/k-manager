@@ -69,6 +69,8 @@
 			box-shadow: none;
 		}
 
+		p { user-select: none; }
+
 		&.success { background-color: #2bbd2b; }
 		&.error { background-color: red; }
 		&.info { background-color: #ffc300; }

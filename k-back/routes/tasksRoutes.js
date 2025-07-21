@@ -5,6 +5,7 @@ import TaskController from '../controllers/TaskController.js';
 const router = express.Router();
 
 router.get('/project/:projectId', asyncHandler(TaskController.getTasksByProjectId));
+router.get('/completed', asyncHandler(TaskController.getCompletedTasks));
 router.post('/bulkDelete', asyncHandler(TaskController.bulkDelete));
 router.get('/:taskId', asyncHandler(TaskController.getTaskById));
 router.post('/', asyncHandler(TaskController.addTask));

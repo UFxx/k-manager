@@ -5,6 +5,10 @@ export default {
 	{
 		return (await apiClient.get(`/tasks/project/${projectId}`)).data;
 	},
+	fetchCompletedTasks: async () =>
+	{
+		return (await apiClient.get(`/tasks/completed`)).data;
+	},
 	addTask: async (payload) =>
 	{
 		return (await apiClient.post(`/tasks`, {...payload})).data;

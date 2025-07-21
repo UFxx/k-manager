@@ -4,7 +4,7 @@
 	import DynamicTaskField from '@/TaskFields/DynamicTaskField.vue';
 	import EditTaskField from '@/TaskFields/EditTaskField.vue';
 
-	import { useTasksStore } from '../stores/tasksStore';
+	import { useTasksStore } from '~/src/stores/tasksStore';
 
 	const props = defineProps({
 		taskId:{

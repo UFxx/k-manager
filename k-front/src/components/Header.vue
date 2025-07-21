@@ -34,13 +34,14 @@
 			<nav>
 				<ul>
 					<li>
-						<a
-							href=""
-							class="active"
-						>Текущие</a>
+						<RouterLink to="/">
+							Текущие
+						</RouterLink>
 					</li>
 					<li>
-						<a href="">Сделанные</a>
+						<RouterLink to="/completed">
+							Сделанные
+						</RouterLink>
 					</li>
 				</ul>
 			</nav>
@@ -81,10 +82,17 @@
 				a
 				{
 					text-decoration: none;
+					color: rgba($white-color, 0.5);
 
 					@extend %header-button;
+					@include tr(0.3, color);
 
-					&.active { @extend %box-shadow; }
+					&.router-link-active
+					{
+						color: $white-color;
+
+						@extend %box-shadow;
+					}
 
 					@media (max-width: $mobile) { font-size: 12px; }
 				}

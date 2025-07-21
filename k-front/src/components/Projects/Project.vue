@@ -1,8 +1,8 @@
 <script setup>
 	import { ref, computed, onMounted } from 'vue';
-	import Task from '@/Task.vue';
+	import Task from '@/Projects/Task.vue';
 
-	import { useTasksStore } from '../stores/tasksStore';
+	import { useTasksStore } from '~/src/stores/tasksStore';
 
 	const props = defineProps({
 		projectName: {

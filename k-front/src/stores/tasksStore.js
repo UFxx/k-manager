@@ -9,24 +9,36 @@ export const useTasksStore = defineStore('tasks', () =>
 	const tasks = ref([]);
 	const selectedTasks = ref([]);
 	const filteredTasks = ref([]);
+	const completedTasks = ref([]);
 
 	const fetchTasks = async (projectId) =>
-		{
-			const data = await tasksApi.fetchTasks(projectId);
+	{
+		const data = await tasksApi.fetchTasks(projectId);
 
-			if (data.success)
+		if (data.success)
+		{
+			tasks.value.push(data.tasks.map(task =>
 			{
-				tasks.value.push(data.tasks.map(task =>
-				{
-					return { ...task, isSelected: false };
-				}))
-			}
-			else toastsStore.useToast(data.message, 'error');
+				return { ...task, isSelected: false };
+			}))
 		}
+		else toastsStore.useToast(data.message, 'error');
+	}
+
+	const fetchCompletedTasks = async () =>
+	{
+		const data = await tasksApi.fetchCompletedTasks();
+
+		if (data.success)
+		{
+			completedTasks.value = data.tasks;
+		}
+		else toastsStore.useToast(data.message, 'error');
+	}
 
 	const addTask = async (projectId, projectIdx) =>
 	{
-		const payload = { projectId: projectId }
+		const payload = { projectId: projectId };
 		const data = await tasksApi.addTask(payload);
 
 		if (data.success)
@@ -39,7 +51,7 @@ export const useTasksStore = defineStore('tasks', () =>
 
 	const editTask = async (task, taskId, projectIdx) =>
 	{
-		const payload = { ...task, taskId }
+		const payload = { ...task, taskId };
 		const data = await tasksApi.editTask(payload);
 
 		if (data.success)
@@ -47,6 +59,9 @@ export const useTasksStore = defineStore('tasks', () =>
 			const affectedTaskIdx = tasks.value[projectIdx].findIndex(task => task.id === taskId);
 			tasks.value[projectIdx][affectedTaskIdx] = data.task;
 			toastsStore.useToast(data.message, 'info');
+
+			if (data.task.status === 3)
+				tasks.value[projectIdx] = tasks.value[projectIdx].slice(0, affectedTaskIdx);
 		}
 		else toastsStore.useToast(data.message, 'error');
 	}
@@ -133,6 +148,7 @@ export const useTasksStore = defineStore('tasks', () =>
 		selectedTasks,
 		filteredTasks,
 		fetchTasks,
+		fetchCompletedTasks,
 		addTask,
 		editTask,
 		deleteTask,
