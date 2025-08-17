@@ -63,4 +63,13 @@ export class Task
 										WHERE id IN (?);`;
 		await db.query(sqlQuery, [task_ids])
 	}
+
+	static async returnCompletedTask(db, task_id)
+	{
+		const sqlQuery = `UPDATE Tasks
+											SET status = 0,
+											is_completed = 0
+											WHERE id = ?;`;
+		await db.query(sqlQuery, task_id);
+	}
 }

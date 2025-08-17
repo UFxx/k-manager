@@ -188,7 +188,7 @@
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				border-right: 1px solid white;
+				border-right: 1px solid $white-color;
 				background-color: rgba($gray-color, $alpha: 0.2);
 				backdrop-filter: blur(8px);
 			}

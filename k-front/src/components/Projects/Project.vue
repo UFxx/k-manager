@@ -187,7 +187,7 @@
 
 		td,
 		th,
-		tr th { border-color: white; }
+		tr th { border-color: $white-color; }
 
 		td
 		{

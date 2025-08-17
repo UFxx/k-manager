@@ -37,6 +37,6 @@
 		border: none;
 		font-size: 14px;
 
-		&:disabled { color: white; }
+		&:disabled { color: $white-color; }
 	}
 </style>

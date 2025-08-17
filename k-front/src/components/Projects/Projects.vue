@@ -57,7 +57,7 @@
 			<TransitionGroup
 				name="fade"
 				tag="div"
-				class="project-container"
+				class="projects-container"
 			>
 				<Project
 					v-for="(project, i) in projects"

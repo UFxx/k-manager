@@ -11,6 +11,34 @@ export const useTasksStore = defineStore('tasks', () =>
 	const filteredTasks = ref([]);
 	const completedTasks = ref([]);
 
+	const statuses = ref([
+		{
+			name: 'Сделать',
+			color: '#FFC300',
+			statusCode: 0
+		},
+		{
+			name: 'Пауза',
+			color: '#585E69',
+			statusCode: 1
+		},
+		{
+			name: 'В процессе',
+			color: '#007BFF',
+			statusCode: 2,
+		},
+		{
+			name: 'Готово',
+			color: '#00FF09',
+			statusCode: 3
+		},
+		{
+			name: 'AAAAAA!',
+			color: 'red',
+			statusCode: 4
+		}
+	]);
+
 	const fetchTasks = async (projectId) =>
 	{
 		const data = await tasksApi.fetchTasks(projectId);
@@ -78,6 +106,17 @@ export const useTasksStore = defineStore('tasks', () =>
 		else toastsStore.useToast(data.message, 'error');
 	}
 
+	const deleteCompletedTask = async (taskId) =>
+	{
+		const data = await tasksApi.deleteTask(taskId);
+
+		if (data.success)
+		{
+			completedTasks.value = completedTasks.value.filter(task => task.id !== taskId);
+			toastsStore.useToast(data.message, 'success');
+		}
+		else toastsStore.useToast(data.message, 'error');
+	}
 
 	const bulkDelete = async () =>
 	{
@@ -143,20 +182,36 @@ export const useTasksStore = defineStore('tasks', () =>
 		));
 	}
 
+	const returnCompletedTask = async (taskId) =>
+	{
+		const data = await tasksApi.returnCompletedTask({ taskId });
+
+		if (data.success)
+		{
+			completedTasks.value = completedTasks.value.filter(task => task.id !== taskId);
+			toastsStore.useToast(data.message, 'success');
+		}
+		else toastsStore.useToast(data.message, 'error');
+	}
+
 	return {
 		tasks,
+		completedTasks,
 		selectedTasks,
 		filteredTasks,
+		statuses,
 		fetchTasks,
 		fetchCompletedTasks,
 		addTask,
 		editTask,
 		deleteTask,
+		deleteCompletedTask,
 		bulkDelete,
 		changeTaskSelection,
 		filterTasks,
 		clearFilters,
 		currentFilter,
-		searchTasks
+		searchTasks,
+		returnCompletedTask
 	};
 })

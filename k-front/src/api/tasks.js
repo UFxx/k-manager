@@ -23,6 +23,10 @@ export default {
 	},
 	editTask: async (payload) =>
 	{
-		return (await apiClient.patch('/tasks', {...payload})).data;
+		return (await apiClient.patch(`/tasks`, {...payload})).data;
+	},
+	returnCompletedTask: async (payload) =>
+	{
+		return (await apiClient.patch(`/tasks/completed`, {...payload})).data;
 	}
 }
