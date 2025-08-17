@@ -223,11 +223,10 @@
 		position: absolute;
 		top: 0;
 		left: 100%;
-		backdrop-filter: blur(8px);
 		border-radius: 0 8px 8px;
-		border-left: 1px solid rgba($white-color, 0.3);
 		padding: 5px;
-		background-color: rgba($gray-color, 0.1);
+		border-left: 1px solid rgba($white-color, 0.3);
+		background-color: #525252;
 		width: 100%;
 	}
 

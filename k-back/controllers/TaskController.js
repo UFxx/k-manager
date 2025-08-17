@@ -113,6 +113,25 @@ class TaskController
 			task: await Task.getTaskById(db, taskId)
 		})
 	}
+
+	async returnCompletedTask(req, res)
+	{
+		const { taskId } = req.body;
+
+		if (!taskId)
+			return res.status(400).json({
+				success: false,
+				message: 'taskId is required'
+			})
+
+		await Task.returnCompletedTask(db, taskId);
+
+		return res.json({
+			success: true,
+			message: 'Задача возвращена',
+			task: await Task.getTaskById(db, taskId)
+		})
+	}
 }
 
 export default new TaskController();

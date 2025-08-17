@@ -1,40 +1,15 @@
 <script setup>
 	import { ref, computed } from 'vue'
+	import { useTasksStore } from '~/src/stores/tasksStore';
+
+	const statuses = useTasksStore().statuses;
 
 	const model = defineModel();
 	const emit = defineEmits(['changeInputValue', 'confirmEdit']);
 
-	const statuses = ref([
-		{
-			name: 'Сделать',
-			color: '#FFC300',
-			statusCode: 0
-		},
-		{
-			name: 'Пауза',
-			color: '#585E69',
-			statusCode: 1
-		},
-		{
-			name: 'В процессе',
-			color: '#007BFF',
-			statusCode: 2,
-		},
-		{
-			name: 'Готово',
-			color: '#00FF09',
-			statusCode: 3
-		},
-		{
-			name: 'AAAAAA!',
-			color: 'red',
-			statusCode: 4
-		}
-	]);
-
 	const isDropdownOpened = ref(false);
 
-	const unselectedStatuses = computed(() => statuses.value.filter((_, i) => i !== model.value))
+	const unselectedStatuses = computed(() => statuses.filter((_, i) => i !== model.value))
 
 	const changeSelectValue = (status) =>
 	{
@@ -95,7 +70,7 @@
 			padding: 10px;
 			font-size: 14px;
 			border-radius: 8px;
-			color: white;
+			color: $white-color;
 			white-space: nowrap;
 			opacity: 1;
 

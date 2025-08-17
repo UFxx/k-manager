@@ -42,7 +42,7 @@
 
 	.container
 	{
-		border: 2px solid white;
+		border: 2px solid $white-color;
 		border-radius: 30px;
 		padding: 10px;
 		width: calc(100% - 10px);
