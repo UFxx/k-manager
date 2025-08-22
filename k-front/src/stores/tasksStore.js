@@ -182,13 +182,15 @@ export const useTasksStore = defineStore('tasks', () =>
 		));
 	}
 
-	const returnCompletedTask = async (taskId) =>
+	const returnCompletedTask = async (returnedTask) =>
 	{
-		const data = await tasksApi.returnCompletedTask({ taskId });
+		const data = await tasksApi.returnCompletedTask({ taskId: returnedTask.id });
 
 		if (data.success)
 		{
-			completedTasks.value = completedTasks.value.filter(task => task.id !== taskId);
+			completedTasks.value = completedTasks.value.filter(task => task.id !== returnedTask.id);
+			const projectIdx = tasks.value.findIndex(project => project[0].project_id === returnedTask.project_id);
+			tasks.value[projectIdx].push({ ...returnedTask, status: 0 });
 			toastsStore.useToast(data.message, 'success');
 		}
 		else toastsStore.useToast(data.message, 'error');

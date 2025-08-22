@@ -6,6 +6,10 @@
 			type: Number,
 			required: true
 		},
+		projectId: {
+			type: Number,
+			required: true
+		},
 		numeration: {
 			type: Number,
 			required: true
@@ -18,12 +22,16 @@
 		importance: {
 			type: Number,
 			required: true
+		},
+		task: {
+			type: Object,
+			required: true
 		}
 	})
 
 	const tasksStore = useTasksStore();
 	const deleteCompletedTask = () => tasksStore.deleteCompletedTask(props.taskId);
-	const returnCompletedTask = () => tasksStore.returnCompletedTask(props.taskId);
+	const returnCompletedTask = () => tasksStore.returnCompletedTask(props.task);
 </script>
 
 <template>
