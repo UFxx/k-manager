@@ -9,14 +9,21 @@
 
 <template>
 	<div class="container">
-		<div class="completed-tasks__container">
+		<div
+			class="completed-tasks__container"
+		>
+			<p v-if="!tasksStore.completedTasks.length">
+				Нет выполненых задач 🙄
+			</p>
 			<CompletedTask
 				v-for="(task, i) in tasksStore.completedTasks"
 				:key="task.id"
 				:taskId="task.id"
+				:projectId="task.project_id"
 				:numeration="i + 1"
 				:text="task.location"
 				:importance="task.importance"
+				:task
 			/>
 		</div>
 	</div>
