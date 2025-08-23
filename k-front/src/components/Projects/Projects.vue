@@ -1,5 +1,5 @@
 <script setup>
-	import { ref, onMounted, provide } from 'vue';
+	import { onMounted, inject } from 'vue';
 
 	import Project from '@/Projects/Project.vue';
 	import ProjectsOptions from '@/Projects/ProjectsOptions.vue';
@@ -7,10 +7,8 @@
 	import projectsApi from '~/src/api/projects'
 	import { useToastsStore } from '~/src/stores/toastsStore';
 
-	const projects = ref([]);
 	const toastsStore = useToastsStore();
-
-	provide('projects', projects);
+	const projects = inject('projects');
 
 	const deleteProject = async (projectId) =>
 	{

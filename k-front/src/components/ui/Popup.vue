@@ -1,13 +1,20 @@
 <script setup>
-	import { ref, watchEffect } from 'vue';
+	import { watchEffect } from 'vue';
 
-	const isOpen = ref(false);
+	const props = defineProps({
+		isOpened: {
+			type: Boolean,
+			requred: true,
+		}
+	})
+
+	const emit = defineEmits(['closePopup']);
 
 	watchEffect(() =>
 	{
 		const padding = window.outerWidth - window.innerWidth;
 
-		if (isOpen.value)
+		if (props.isOpened)
 		{
 			document.body.style.overflow = 'hidden';
 			document.body.style.paddingRight = padding + 'px';
@@ -23,19 +30,21 @@
 <template>
 	<TransitionGroup name="fade">
 		<div
-			v-if="isOpen"
+			v-if="isOpened"
 			class="popup-background"
-			@click="isOpen = false"
+			@click="emit('closePopup')"
 		/>
 		<div
-			v-if="isOpen"
+			v-if="isOpened"
 			class="popup-content"
 		>
-			<div class="popup__close">
+			<div
+				class="popup__close"
+				@click="emit('closePopup')"
+			>
 				<Icon
 					path="/times.svg"
 					size="small"
-					@click="isOpen = false"
 				/>
 			</div>
 			<slot />
@@ -66,20 +75,21 @@
 		width: max-content;
 		height: max-content;
 		padding: 20px;
-		border-radius: 30px;
-		background-color: rgba($gray-color, 0.5);
+		border-radius: 15px;
+		background-color: #585E69;
 		z-index: 4;
 	}
 
 	.popup__close
 	{
 		position: absolute;
-		top: 30px;
-		right: 30px;
+		top: 0;
+		right: -60px;
 		opacity: 0.5;
 		cursor: pointer;
+		background-color: rgba($gray-color, 0.1);
 
-		@include tr(0.3, opacity);
+		@extend %header-button;
 
 		&:hover { opacity: 1; }
 	}

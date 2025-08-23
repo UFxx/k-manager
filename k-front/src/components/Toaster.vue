@@ -28,7 +28,7 @@
 		row-gap: 10px;
 		top: 80px;
 		right: 30px;
-		z-index: 3;
+		z-index: 5;
 	}
 
 	@keyframes slide-up {
