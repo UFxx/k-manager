@@ -7,10 +7,7 @@
 	color: white;
 }
 
-*::selection
-{
-	background-color: rgba($gray-color, 0.3);
-}
+*::selection { background-color: rgba($gray-color, 0.3); }
 
 body
 {
