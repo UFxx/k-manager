@@ -1,7 +1,11 @@
 <script setup>
+	import { ref, provide } from 'vue';
+
 	import Toaster from '@/Toaster.vue';
 	import Header from '@/Header.vue';
-	import Popup from '@/Popup.vue'
+
+	const projects = ref([]);
+	provide('projects', projects);
 </script>
 
 <template>

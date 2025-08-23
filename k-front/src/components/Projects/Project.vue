@@ -1,6 +1,7 @@
 <script setup>
 	import { ref, computed, onMounted } from 'vue';
 	import Task from '@/Projects/Task.vue';
+	import DeleteProject from '@/Projects/DeleteProject.vue';
 
 	import { useTasksStore } from '~/src/stores/tasksStore';
 
@@ -27,6 +28,7 @@
 	// vars
 	const newProjectName = ref(props.projectName);
 	const canEditProject = ref(false);
+	const popupOpened    = ref(false);
 	let originalProjectName;
 
 	const displayedTasks = computed(() => tasksStore.filteredTasks.length ? tasksStore.filteredTasks : tasksStore.tasks);
@@ -53,10 +55,23 @@
 		}
 	}
 
+	const closePopup = () => popupOpened.value = false;
+
 	onMounted(() => tasksStore.fetchTasks(props.projectId));
 </script>
 
 <template>
+	<Popup
+		:isOpened="popupOpened"
+		@close-popup="closePopup"
+	>
+		<DeleteProject
+			:projectName
+			:projectId
+			@close-popup="closePopup"
+			@delete-project="emit('deleteProject', projectId)"
+		/>
+	</Popup>
 	<div class="container">
 		<table
 			class="project-table"
@@ -83,7 +98,7 @@
 								size="small"
 							/>
 						</button>
-						<button @click="emit('deleteProject', props.projectId)">
+						<button @click="popupOpened = true">
 							<Icon
 								path="trash.svg"
 								size="small"

@@ -9,11 +9,11 @@ import '~/style.scss';
 
 // Global components
 import Icon from './components/ui/Icon.vue';
+import Popup from './components/ui/Popup.vue';
 
 // Components for router
 import Projects from '@/Projects/Projects.vue';
 import CompletedTasks from '@/CompletedTasks/CompletedTasks.vue';
-
 
 const router = createRouter({
 	history: createWebHistory(),
@@ -24,7 +24,11 @@ const router = createRouter({
 });
 
 const app = createApp(App);
+
+// Global components registration
 app.component('Icon', Icon);
+app.component('Popup', Popup);
+
 app.use(createPinia())
 app.use(router);
 app.mount('#app');
