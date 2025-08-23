@@ -55,7 +55,7 @@
 <style lang='scss'>
 	.popup-background
 	{
-		position: fixed;
+		position: absolute;
 		top: 0;
 		left: 0;
 		width: 100%;
@@ -68,7 +68,7 @@
 
 	.popup-content
 	{
-		position: absolute;
+		position: fixed;
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
