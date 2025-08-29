@@ -25,12 +25,12 @@ export class Task
 		return rows[0];
 	}
 
-	static async addTask(db, project_id)
+	static async addTask(db, project_id, date)
 	{
-		const sqlQuery = `INSERT INTO Tasks (project_id)
+		const sqlQuery = `INSERT INTO Tasks (project_id, created_at)
 											VALUES
-											(?);`;
-		const [result] = await db.query(sqlQuery, [project_id]);
+											(?, ?);`;
+		const [result] = await db.query(sqlQuery, [project_id, date]);
 
 		const taskId = result.insertId;
 
@@ -44,7 +44,7 @@ export class Task
 		await db.query(sqlQuery, [task_id]);
 	}
 
-	static async editTask(db, location, available, importance, status, comment, is_completed, task_id)
+	static async editTask(db, location, available, importance, status, comment, is_completed, completed_at, task_id)
 	{
 		const sqlQuery = `UPDATE Tasks
 											SET location = ?,
@@ -52,9 +52,10 @@ export class Task
 											importance = ?,
 											status = ?,
 											comment = ?,
-											is_completed = ?
+											is_completed = ?,
+											completed_at = ?
 											WHERE id = ?;`;
-		await db.query(sqlQuery, [location, available, importance, status, comment, is_completed, task_id]);
+		await db.query(sqlQuery, [location, available, importance, status, comment, is_completed, completed_at, task_id]);
 	}
 
 	static async bulkDelete(db, task_ids)
