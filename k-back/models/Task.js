@@ -73,4 +73,13 @@ export class Task
 											WHERE id = ?;`;
 		await db.query(sqlQuery, task_id);
 	}
+
+	static async getAllTasksStat(db)
+	{
+		const sqlQuery = `SELECT status, COUNT(*) as 'count'
+											FROM Tasks
+											GROUP BY status;`;
+		const [rows] = await db.query(sqlQuery);
+		return rows;
+	}
 }
