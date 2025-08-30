@@ -28,5 +28,9 @@ export default {
 	returnCompletedTask: async (payload) =>
 	{
 		return (await apiClient.patch(`/tasks/completed`, {...payload})).data;
+	},
+	fetchTasksStat: async () =>
+	{
+		return (await apiClient.get(`/tasks/completed/stat`)).data;
 	}
 }

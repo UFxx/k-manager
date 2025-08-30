@@ -143,7 +143,8 @@ class TaskController
 	{
 		return res.status(200).json({
 			success: true,
-			stat: await Task.getAllTasksStat(db)
+			created_tasks: await Task.getCreatedTasksStat(db),
+			completed_tasks: await Task.getTasksStatByDate(db)
 		})
 	}
 }
