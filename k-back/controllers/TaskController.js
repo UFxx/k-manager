@@ -111,10 +111,7 @@ class TaskController
 				message: "location, available, importance, status, comment, taskId is required"
 			})
 
-		if (isCompleted)
-			await Task.editTask(db, location, available, importance, status, comment, isCompleted, formattedDate, taskId)
-		else
-			await Task.editTask(db, location, available, importance, status, comment, isCompleted, taskId)
+		await Task.editTask(db, location, available, importance, status, comment, isCompleted, isCompleted ? formattedDate : null, taskId)
 
 		return res.json({
 			success: true,
@@ -139,6 +136,15 @@ class TaskController
 			success: true,
 			message: 'Задача возвращена',
 			task: await Task.getTaskById(db, taskId)
+		})
+	}
+
+	async getAllTasksStat(_, res)
+	{
+		return res.status(200).json({
+			success: true,
+			created_tasks: await Task.getCreatedTasksStat(db),
+			completed_tasks: await Task.getTasksStatByDate(db)
 		})
 	}
 }

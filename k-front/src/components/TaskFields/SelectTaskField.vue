@@ -1,8 +1,8 @@
 <script setup>
 	import { ref, computed } from 'vue'
-	import { useTasksStore } from '~/src/stores/tasksStore';
+	import { TASK_STATUSES } from '~/src/constants/statuses';
 
-	const statuses = useTasksStore().statuses;
+	const statuses = TASK_STATUSES;
 
 	const model = defineModel();
 	const emit = defineEmits(['changeInputValue', 'confirmEdit']);

@@ -2,7 +2,10 @@ export class Project
 {
 	static async getAllProjects(db)
 	{
-		const [rows] = await db.query('SELECT * FROM Projects;');
+		const sqlQuery = `SELECT *
+											FROM Projects
+											ORDER BY project_id;`;
+		const [rows] = await db.query(sqlQuery);
 		return rows;
 	}
 
