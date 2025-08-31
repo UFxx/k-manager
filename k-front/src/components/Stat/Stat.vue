@@ -12,7 +12,6 @@
 			required: true
 		}
 	})
-
 </script>
 
 <template>
@@ -26,9 +25,10 @@
 	.tasks-stat
 	{
 		display: grid;
-		grid-template-areas: 'created .'
+		grid-template-areas: '. created'
 												'completed completed';
+		grid-template-rows: repeat(2, 300px);
 		row-gap: 20px;
-		width: 600px;
+		width: 500px;
 	}
 </style>

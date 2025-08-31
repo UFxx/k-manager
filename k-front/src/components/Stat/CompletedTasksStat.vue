@@ -65,6 +65,7 @@
 		justify-content: center;
 		width: 100%;
 		column-gap: 10px;
+		margin-top: 10px;
 
 		label	{ user-select: none; }
 	}

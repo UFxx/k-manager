@@ -36,6 +36,7 @@
 		</div>
 		<div class="tasks-stat__container">
 			<Stat
+				:createdTasks="useStatStore().createdTasks"
 				:completedTasks="useStatStore().completedTasks"
 			/>
 		</div>
@@ -48,14 +49,15 @@
 	.completed-tasks
 	{
 		display: flex;
-		column-gap: 200px;
+		justify-content: space-between;
 	}
 
 	.completed-tasks__container
 	{
 		padding: 20px;
 		background-color: rgba($gray-color, 0.1);
-		width: 350px;
+		max-width: 350px;
+		min-width: 350px;
 		max-height: 400px;
 		border-radius: 10px;
 		border: 1px solid $white-color;

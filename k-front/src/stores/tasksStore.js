@@ -13,34 +13,6 @@ export const useTasksStore = defineStore('tasks', () =>
 	const filteredTasks  = ref([]);
 	const completedTasks = ref([]);
 
-	const statuses = ref([
-		{
-			name: 'Сделать',
-			color: '#FFC300',
-			statusCode: 0
-		},
-		{
-			name: 'Пауза',
-			color: '#585E69',
-			statusCode: 1
-		},
-		{
-			name: 'В процессе',
-			color: '#007BFF',
-			statusCode: 2,
-		},
-		{
-			name: 'Готово',
-			color: '#00FF09',
-			statusCode: 3
-		},
-		{
-			name: 'AAAAAA!',
-			color: 'red',
-			statusCode: 4
-		}
-	]);
-
 	const fetchTasks = async (projectId) =>
 	{
 		const data = await tasksApi.fetchTasks(projectId);
@@ -204,7 +176,6 @@ export const useTasksStore = defineStore('tasks', () =>
 		completedTasks,
 		selectedTasks,
 		filteredTasks,
-		statuses,
 		fetchTasks,
 		fetchCompletedTasks,
 		addTask,

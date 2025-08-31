@@ -2,7 +2,7 @@
 	import PieChart from '@/Charts/PieChart.vue';
 
 	defineProps({
-		created: {
+		createdTasks: {
 			type: Array,
 			required: true
 		}
@@ -11,10 +11,10 @@
 
 <template>
 	<section class="created-tasks__container">
-		<!-- <PieChart
+		<PieChart
 			id="created-tasks__chart"
-			:created
-		/> -->
+			:chartData="createdTasks"
+		/>
 	</section>
 </template>
 
